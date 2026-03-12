@@ -44,13 +44,7 @@ export function HomeExploreVehicles({ locale }: HomeExploreVehiclesProps) {
   };
 
   return (
-    <section
-      className="relative overflow-hidden py-20"
-      style={{
-        background:
-          "radial-gradient(ellipse 70% 60% at 50% 100%, rgba(92, 184, 92, 0.08) 0%, transparent 55%), #ffffff",
-      }}
-    >
+    <section className="section-explore-organic relative overflow-hidden py-20">
       <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
         <p className="text-center text-xs font-semibold uppercase tracking-widest text-[var(--text-muted)]">
           {t.exploreEyebrow}
@@ -77,7 +71,7 @@ export function HomeExploreVehicles({ locale }: HomeExploreVehiclesProps) {
           <button
             type="button"
             onClick={() => scroll("left")}
-            className="absolute left-0 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--border)] bg-white text-[var(--text-primary)] shadow-lg transition hover:border-[var(--navy-primary)]/30 hover:bg-[var(--background)]"
+            className="absolute left-0 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] shadow-[var(--shadow-card)] transition hover:border-[var(--navy-primary)]/25 hover:shadow-[var(--shadow-lift)]"
             aria-label={locale === "fr" ? "Précédent" : "Previous"}
           >
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -87,7 +81,7 @@ export function HomeExploreVehicles({ locale }: HomeExploreVehiclesProps) {
           <button
             type="button"
             onClick={() => scroll("right")}
-            className="absolute right-0 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--border)] bg-white text-[var(--text-primary)] shadow-lg transition hover:border-[var(--navy-primary)]/30 hover:bg-[var(--background)]"
+            className="absolute right-0 top-1/2 z-10 flex h-12 w-12 -translate-y-1/2 items-center justify-center rounded-full border border-[var(--border)] bg-[var(--surface)] text-[var(--text-primary)] shadow-[var(--shadow-card)] transition hover:border-[var(--navy-primary)]/25 hover:shadow-[var(--shadow-lift)]"
             aria-label={locale === "fr" ? "Suivant" : "Next"}
           >
             <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

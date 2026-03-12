@@ -28,7 +28,7 @@ export function Footer({ locale }: FooterProps) {
   const basePath = `/${locale}`;
 
   return (
-    <footer className="border-t border-white/10 bg-[#062E5B] shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+    <footer className="footer-organic border-t border-[var(--glass-border-dark)]">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
         <div className="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
           <div>

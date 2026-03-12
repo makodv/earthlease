@@ -48,13 +48,7 @@ export function HomeReviews({ locale }: HomeReviewsProps) {
   ];
 
   return (
-    <section
-      className="relative py-20"
-      style={{
-        background:
-          "radial-gradient(ellipse 70% 60% at 30% 40%, rgba(6, 46, 91, 0.06) 0%, transparent 55%), radial-gradient(ellipse 60% 50% at 70% 60%, rgba(92, 184, 92, 0.05) 0%, transparent 50%), linear-gradient(180deg, #e8eef5 0%, #eef2f7 40%, #f4f7fb 100%)",
-      }}
-    >
+    <section className="section-reviews-organic relative py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-center text-section-title text-[var(--text-primary)]">
           {t.reviewsTitle}

@@ -12,23 +12,33 @@ export default async function VehiclesPage({
   const { locale } = await params;
   if (!isValidLocale(locale)) notFound();
 
-  return (
-    <div className="mx-auto max-w-6xl px-4 py-20 sm:px-6 lg:px-8" style={{ background: "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(6,46,91,0.05) 0%, transparent 50%), #f4f7fb" }}>
-      <h1 className="text-section-title text-[var(--text-primary)]">
-        {locale === "fr" ? "Nos véhicules" : "Our vehicles"}
-      </h1>
-      <p className="mt-4 text-body-lg text-[var(--text-secondary)]">
-        {locale === "fr"
-          ? "Choisissez le véhicule qui vous correspond."
-          : "Choose the vehicle that suits you."}
-      </p>
+  const eyebrow = locale === "fr" ? "Voitures particuliers" : "Passenger cars";
+  const title = locale === "fr" ? "Nos véhicules" : "Our vehicles";
+  const subtitle =
+    locale === "fr"
+      ? "Choisissez le véhicule qui vous correspond. Tout compris dans une seule mensualité."
+      : "Choose the vehicle that suits you. All-inclusive monthly payment.";
 
-      <div className="mt-12">
-        <VehicleListWithFilters
-          vehicles={vehiclesParticulier}
-          locale={locale as Locale}
-          basePath={`/${locale}`}
-        />
+  return (
+    <div className="section-vehicles-organic min-h-[60vh]">
+      <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
+        <p className="text-center text-xs font-semibold uppercase tracking-widest text-[var(--text-muted)]">
+          {eyebrow}
+        </p>
+        <h1 className="mt-3 text-center text-3xl font-bold text-[var(--text-primary)] sm:text-4xl">
+          {title}
+        </h1>
+        <p className="mx-auto mt-4 max-w-xl text-center text-[var(--text-secondary)]">
+          {subtitle}
+        </p>
+
+        <div className="mt-14">
+          <VehicleListWithFilters
+            vehicles={vehiclesParticulier}
+            locale={locale as Locale}
+            basePath={`/${locale}`}
+          />
+        </div>
       </div>
     </div>
   );

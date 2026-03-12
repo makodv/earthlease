@@ -1,0 +1,58 @@
+export const howItWorksTranslations = {
+  fr: {
+    title: "Comment ça marche",
+    subtitle: "Louer un véhicule chez EarthLease en quelques étapes simples.",
+    step1Title: "Choisissez votre véhicule",
+    step1Desc:
+      "Parcourez notre flotte de voitures particuliers ou de véhicules professionnels. Filtrez par places, transmission et carburant, puis consultez les tarifs au mois ou à la journée.",
+    step2Title: "Demandez un devis",
+    step2Desc:
+      "Cliquez sur « Demander un devis » pour le véhicule qui vous intéresse. Renseignez vos coordonnées et la période de location souhaitée. Nous vous envoyons une proposition sous 24 à 48 h.",
+    step3Title: "Signez et récupérez",
+    step3Desc:
+      "Une fois le devis accepté, nous finalisons le contrat. Vous récupérez le véhicule à nos locaux ou bénéficiez d’une livraison selon les options choisies.",
+    whatsIncludedTitle: "Ce qui est inclus",
+    whatsIncludedIntro: "Votre mensualité ou tarif journalier comprend :",
+    included1: "Assurance tous risques",
+    included2: "Entretien et révisions",
+    included3: "Assistance routière 24h/24",
+    included4: "Contrôle technique et taxes",
+    included5: "Pas d’acompte obligatoire (selon formules)",
+    documentsTitle: "Documents à prévoir",
+    documentsIntro: "Pour finaliser votre location, prévoyez :",
+    doc1: "Permis de conduire en cours de validité",
+    doc2: "Pièce d’identité",
+    doc3: "Justificatif de domicile de moins de 3 mois",
+    doc4: "Pour les pros : extrait Kbis ou équivalent",
+    ctaVehicles: "Voir nos véhicules",
+    ctaContact: "Nous contacter",
+  },
+  en: {
+    title: "How it works",
+    subtitle: "Rent a vehicle with EarthLease in a few simple steps.",
+    step1Title: "Choose your vehicle",
+    step1Desc:
+      "Browse our fleet of passenger cars or professional vehicles. Filter by seats, transmission and fuel type, then check prices per month or per day.",
+    step2Title: "Request a quote",
+    step2Desc:
+      "Click « Request a quote » for the vehicle you want. Enter your details and the desired rental period. We send you a proposal within 24 to 48 hours.",
+    step3Title: "Sign and collect",
+    step3Desc:
+      "Once the quote is accepted, we finalise the contract. You collect the vehicle at our premises or benefit from delivery depending on the options chosen.",
+    whatsIncludedTitle: "What's included",
+    whatsIncludedIntro: "Your monthly or daily rate includes:",
+    included1: "Comprehensive insurance",
+    included2: "Maintenance and servicing",
+    included3: "24/7 roadside assistance",
+    included4: "Vehicle inspection and taxes",
+    included5: "No mandatory deposit (depending on plan)",
+    documentsTitle: "Documents to prepare",
+    documentsIntro: "To complete your rental, you will need:",
+    doc1: "Valid driving licence",
+    doc2: "ID document",
+    doc3: "Proof of address less than 3 months old",
+    doc4: "For businesses: company registration (e.g. Kbis)",
+    ctaVehicles: "See our vehicles",
+    ctaContact: "Contact us",
+  },
+} as const;

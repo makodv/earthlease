@@ -3,10 +3,10 @@
 import { type HTMLAttributes } from "react";
 
 const cardBase =
-  "rounded-xl p-6 border border-[var(--border)] bg-[var(--surface)] transition-[box-shadow,transform,border-color] duration-200";
+  "rounded-2xl p-6 border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)] transition-[box-shadow,transform,border-color] duration-200 hover:shadow-[var(--shadow-lift)]";
 
 const glassCardBase =
-  "rounded-xl border border-white/20 bg-white/70 p-6 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md transition-all duration-200 hover:border-white/40 hover:shadow-[0_12px_40px_rgba(6,46,91,0.12)]";
+  "rounded-2xl p-6 glass-card";
 
 export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   variant?: "solid" | "glass";

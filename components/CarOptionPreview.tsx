@@ -6,28 +6,40 @@ import type { VehicleOption } from "@/data/types/vehicle";
 import { vehicleTranslations, type Locale } from "@/data/translations";
 import { Button } from "@/components/ui/Button";
 
+export type PriceDisplay = "month" | "day";
+
+const DAYS_PER_MONTH = 30;
+
 interface CarOptionPreviewProps {
   vehicle: VehicleOption;
   locale: Locale;
   href: string;
+  priceDisplay?: PriceDisplay;
 }
 
-export function CarOptionPreview({ vehicle, locale, href }: CarOptionPreviewProps) {
+export function CarOptionPreview({ vehicle, locale, href, priceDisplay = "month" }: CarOptionPreviewProps) {
   const t = vehicleTranslations[locale];
   const transmissionLabel =
     vehicle.transmission === "automatic" ? t.automatic : t.manual;
   const fuelLabel =
     vehicle.fuelType === "diesel" ? t.diesel : t.essence;
 
+  const isDay = priceDisplay === "day";
+  const priceValue = isDay
+    ? Math.round((vehicle.pricePerMonth / DAYS_PER_MONTH) * 10) / 10
+    : vehicle.pricePerMonth;
+  const priceSuffix = isDay ? t.perDay : t.perMonth;
+  const localeStr = locale === "fr" ? "fr-FR" : "en-US";
+
   return (
-    <article className="flex flex-col overflow-hidden rounded-xl border border-white/20 bg-white/70 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md transition-all duration-200 hover:border-white/40 hover:shadow-[0_12px_40px_rgba(6,46,91,0.12)]">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#f4f7fb]">
+    <article className="group flex flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)] transition-all duration-200 hover:shadow-[var(--shadow-lift)] hover:border-[var(--navy-primary)]/15">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[var(--muted)]">
         {vehicle.image ? (
           <Image
             src={vehicle.image}
             alt={vehicle.name}
             fill
-            className="object-cover transition-transform duration-300 hover:scale-[1.02]"
+            className="object-cover transition-transform duration-300 group-hover:scale-[1.03]"
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           />
         ) : (
@@ -47,7 +59,7 @@ export function CarOptionPreview({ vehicle, locale, href }: CarOptionPreviewProp
             </svg>
           </div>
         )}
-        <span className="absolute left-4 top-4 rounded-lg border border-white/20 bg-white/80 px-2.5 py-1 text-xs font-medium text-[var(--text-primary)] backdrop-blur-sm">
+        <span className="absolute left-4 top-4 rounded-lg border border-[var(--border)] bg-[var(--surface)]/95 px-2.5 py-1 text-xs font-medium text-[var(--text-primary)] shadow-sm">
           {vehicle.brand}
         </span>
       </div>
@@ -69,10 +81,10 @@ export function CarOptionPreview({ vehicle, locale, href }: CarOptionPreviewProp
               {t.from}
             </p>
             <p className="mt-0.5 text-xl font-bold text-[var(--navy-primary)]">
-              {vehicle.pricePerMonth.toLocaleString(locale === "fr" ? "fr-FR" : "en-US")}
+              {priceValue.toLocaleString(localeStr)}
               {vehicle.currency ?? "€"}
               <span className="text-sm font-normal text-[var(--text-muted)]">
-                {t.perMonth}
+                {priceSuffix}
               </span>
             </p>
             <p className="mt-1 text-xs text-[var(--text-muted)]">{t.allIncluded}</p>

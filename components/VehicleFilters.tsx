@@ -31,7 +31,7 @@ export function VehicleFilters({
   const t = vehicleTranslations[locale];
 
   return (
-    <div className="flex flex-wrap items-end gap-6 rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+    <div className="flex flex-wrap items-end gap-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-[var(--shadow-card)]">
       <div className="flex flex-col gap-2">
         <label
           htmlFor="filter-seats"
@@ -47,7 +47,7 @@ export function VehicleFilters({
               e.target.value === "all" ? "all" : Number(e.target.value)
             )
           }
-          className={`${inputBase} min-w-[140px] py-2.5`}
+          className={`${inputBase} min-w-[140px] rounded-xl py-2.5`}
         >
           <option value="all">{t.all}</option>
           {seats.map((n) => (
@@ -71,7 +71,7 @@ export function VehicleFilters({
           onChange={(e) =>
             onTransmissionChange(e.target.value as TransmissionFilter)
           }
-          className={`${inputBase} min-w-[160px] py-2.5`}
+          className={`${inputBase} min-w-[160px] rounded-xl py-2.5`}
         >
           <option value="all">{t.all}</option>
           <option value="manual">{t.manual}</option>
@@ -90,7 +90,7 @@ export function VehicleFilters({
           id="filter-fuel"
           value={selectedFuel}
           onChange={(e) => onFuelChange(e.target.value as FuelFilter)}
-          className={`${inputBase} min-w-[140px] py-2.5`}
+          className={`${inputBase} min-w-[140px] rounded-xl py-2.5`}
         >
           <option value="all">{t.all}</option>
           <option value="diesel">{t.diesel}</option>

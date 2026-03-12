@@ -17,7 +17,7 @@ export function HomeVehicleCard({ vehicle, locale }: HomeVehicleCardProps) {
   return (
     <Link
       href={href}
-      className="group flex w-[280px] shrink-0 snap-start flex-col overflow-hidden rounded-xl border border-white/25 bg-white/80 shadow-lg transition-all hover:border-[var(--navy-primary)]/30 hover:shadow-xl hover:bg-white"
+      className="group flex w-[280px] shrink-0 snap-start flex-col overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)] transition-all hover:border-[var(--navy-primary)]/25 hover:shadow-[var(--shadow-lift)]"
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#eef2f7]">
         {vehicle.image ? (
@@ -45,7 +45,7 @@ export function HomeVehicleCard({ vehicle, locale }: HomeVehicleCardProps) {
             </svg>
           </div>
         )}
-        <span className="absolute left-3 top-3 rounded-md border border-white/30 bg-white/90 px-2 py-0.5 text-xs font-medium text-[var(--text-primary)]">
+        <span className="absolute left-3 top-3 rounded-lg border border-[var(--border)] bg-[var(--surface)]/95 px-2 py-0.5 text-xs font-medium text-[var(--text-primary)] shadow-sm">
           {vehicle.brand}
         </span>
       </div>

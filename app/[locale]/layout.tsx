@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { HeroLayoutWrapper } from "@/components/HeroLayoutWrapper";
 import { isValidLocale, locales } from "@/lib/i18n";
 import type { Locale } from "@/data/translations";
 
@@ -22,10 +23,10 @@ export default async function LocaleLayout({
   }
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <HeroLayoutWrapper locale={locale}>
       <Navbar locale={locale as Locale} />
       <main className="flex-1">{children}</main>
       <Footer locale={locale as Locale} />
-    </div>
+    </HeroLayoutWrapper>
   );
 }

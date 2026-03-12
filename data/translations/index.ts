@@ -5,4 +5,6 @@ export { homeTranslations } from "./home";
 export { vehicleTranslations } from "./vehicles";
 export { contactTranslations } from "./contact";
 export { devisTranslations } from "./devis";
+export { faqTranslations } from "./faq";
+export { howItWorksTranslations } from "./howItWorks";
 export type { Locale } from "./nav";

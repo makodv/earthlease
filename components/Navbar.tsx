@@ -93,63 +93,61 @@ export function Navbar({ locale }: NavbarProps) {
   return (
     <header
       ref={headerRef}
-      className="sticky top-0 z-50 w-full border-b border-white/20 bg-white/75 shadow-[0_1px_0_rgba(255,255,255,0.5)_inset,0_2px_16px_rgba(6,46,91,0.08)] backdrop-blur-xl"
+      className="navbar-organic sticky top-0 z-50 w-full"
     >
-      <div className="mx-auto flex min-h-[72px] max-w-6xl items-center justify-between gap-6 px-4 sm:px-6 lg:px-8">
+      <div className="navbar-pill mx-auto flex min-h-[88px] max-w-6xl items-center justify-between gap-4 px-6 py-2 sm:min-h-[96px] sm:gap-6 sm:px-8">
         <Link
           ref={logoRef}
           href={basePath}
-          className="flex items-center transition-opacity hover:opacity-90"
+          className="flex items-center gap-3 transition-opacity hover:opacity-90"
         >
           <img
             src={LOGO_SRC}
             alt="EarthLease"
-            className="w-auto object-contain object-left"
-            style={{ height: "56px", minWidth: "120px" }}
-            width={220}
-            height={56}
+            className="h-24 w-auto object-contain sm:h-[7rem]"
+            style={{ minWidth: "280px" }}
+            width={400}
+            height={112}
           />
         </Link>
 
-        <nav ref={navRef} className="hidden items-center gap-0 md:flex">
+        <nav ref={navRef} className="hidden shrink-0 items-center gap-1 md:flex md:gap-0">
           <div ref={dropdownRef} className="relative">
-            <div className="relative">
-              <button
-                type="button"
-                onClick={() => setVehiclesOpen((o) => !o)}
-                className={`flex items-center gap-1.5 px-5 py-2.5 text-sm font-medium transition-colors ${
-                  isVehiclesActive
-                    ? "text-[var(--navy-primary)]"
-                    : "text-[var(--text-primary)] hover:text-[var(--navy-primary)]"
-                }`}
-                aria-expanded={vehiclesOpen}
-                aria-haspopup="true"
+            <button
+              type="button"
+              onClick={() => setVehiclesOpen((o) => !o)}
+              className={`flex items-center gap-1.5 whitespace-nowrap px-4 py-2.5 text-sm font-medium transition-colors rounded-full ${
+                isVehiclesActive
+                  ? "text-[var(--navy-primary)]"
+                  : "text-[var(--muted-foreground)] hover:text-[var(--navy-primary)]"
+              }`}
+              aria-expanded={vehiclesOpen}
+              aria-haspopup="true"
+            >
+              {t.vehicles}
+              <svg
+                className={`h-4 w-4 transition-transform ${vehiclesOpen ? "rotate-180" : ""}`}
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
               >
-                {t.vehicles}
-                <svg
-                  className={`h-4 w-4 transition-transform ${vehiclesOpen ? "rotate-180" : ""}`}
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                </svg>
-              </button>
-              {isVehiclesActive && !vehiclesOpen && (
-                <span
-                  className="absolute bottom-0 left-5 right-5 h-0.5 rounded-full bg-[var(--navy-primary)]"
-                  aria-hidden
-                />
-              )}
-            </div>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            {isVehiclesActive && !vehiclesOpen && (
+              <span
+                className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-[var(--navy-primary)]"
+                aria-hidden
+              />
+            )}
             {vehiclesOpen && (
-              <div className="absolute left-0 top-full z-50 mt-1 min-w-[240px] rounded-xl border border-white/20 bg-white/95 py-2 shadow-lg backdrop-blur-xl">
+              <div className="navbar-dropdown absolute left-0 top-full z-50 mt-1.5 min-w-[240px] rounded-2xl border border-[var(--border)] bg-[var(--surface)] py-2 shadow-[var(--shadow-lift)]">
                 {vehicleOptions.map((opt) => (
                   <Link
                     key={opt.href}
                     href={opt.href}
                     onClick={() => setVehiclesOpen(false)}
-                    className="block px-5 py-2.5 text-left transition-colors hover:bg-[var(--background)]"
+                    className="block px-5 py-2.5 text-left transition-colors hover:bg-[var(--muted)]"
                   >
                     <span className="block text-sm font-medium text-[var(--text-primary)]">
                       {opt.label}
@@ -168,16 +166,16 @@ export function Navbar({ locale }: NavbarProps) {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`relative px-5 py-2.5 text-sm font-medium transition-colors ${
+                className={`relative whitespace-nowrap rounded-full px-4 py-2.5 text-sm font-medium transition-colors ${
                   isActive
                     ? "text-[var(--navy-primary)]"
-                    : "text-[var(--text-primary)] hover:text-[var(--navy-primary)]"
+                    : "text-[var(--muted-foreground)] hover:text-[var(--navy-primary)]"
                 }`}
               >
                 {link.label}
                 {isActive && (
                   <span
-                    className="absolute bottom-0 left-5 right-5 h-0.5 rounded-full bg-[var(--navy-primary)]"
+                    className="absolute bottom-1 left-4 right-4 h-0.5 rounded-full bg-[var(--navy-primary)]"
                     aria-hidden
                   />
                 )}
@@ -186,23 +184,20 @@ export function Navbar({ locale }: NavbarProps) {
           })}
         </nav>
 
-        <div ref={ctaRef} className="flex items-center gap-4 sm:gap-6">
-          <div className="hidden text-right sm:block">
-            <a
-              href={`tel:${t.phone.replace(/\s/g, "")}`}
-              className="block text-sm font-semibold text-[var(--text-primary)] transition-colors hover:text-[var(--navy-primary)]"
-            >
-              {t.phone}
-            </a>
-            <span className="text-xs text-[var(--text-muted)]">{t.hours}</span>
-          </div>
-          <Button
+        <div ref={ctaRef} className="flex shrink-0 items-center gap-3 sm:gap-5">
+          <Link
             href={switchPath}
-            variant="secondary"
-            size="sm"
-            className="!py-2 !px-4"
+            className="whitespace-nowrap rounded-full px-4 py-2 text-sm font-medium text-[var(--muted-foreground)] transition-colors hover:text-[var(--navy-primary)]"
           >
             {switchLocale.toUpperCase()}
+          </Link>
+          <Button
+            href={`${basePath}/vehicles`}
+            variant="accent"
+            size="sm"
+            className="whitespace-nowrap rounded-full !px-5 !py-2.5"
+          >
+            {t.seeVehicles}
           </Button>
         </div>
       </div>

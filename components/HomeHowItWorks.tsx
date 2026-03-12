@@ -22,13 +22,7 @@ export function HomeHowItWorks({ locale }: HomeHowItWorksProps) {
   const t = homeTranslations[locale];
 
   return (
-    <section
-      className="relative py-20"
-      style={{
-        background:
-          "radial-gradient(ellipse 70% 60% at 15% 50%, rgba(6, 46, 91, 0.1) 0%, transparent 55%), radial-gradient(ellipse 70% 60% at 85% 50%, rgba(92, 184, 92, 0.08) 0%, transparent 55%), linear-gradient(135deg, #f0f4f9 0%, #e8eef5 50%, #f2f6fa 100%)",
-      }}
-    >
+    <section className="section-how-organic relative py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-center text-section-title text-[var(--text-primary)]">
           {t.howTitle}
@@ -39,7 +33,7 @@ export function HomeHowItWorks({ locale }: HomeHowItWorksProps) {
         <div className="mt-16 grid gap-10 sm:grid-cols-3">
           {steps.map((key, i) => (
             <div key={key} className="relative text-center">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--navy-primary)]/20 bg-white/90 text-xl font-bold text-[var(--navy-primary)] shadow-sm">
+              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl border border-[var(--navy-primary)]/20 bg-[var(--surface)] text-xl font-bold text-[var(--navy-primary)] shadow-[var(--shadow-card)]">
                 {i + 1}
               </div>
               <h3 className="mt-5 font-semibold text-[var(--text-primary)]">
