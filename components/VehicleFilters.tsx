@@ -2,6 +2,7 @@
 
 import { vehicleTranslations, type Locale } from "@/data/translations";
 import type { FuelType } from "@/data/types/vehicle";
+import { inputBase } from "@/components/ui/Card";
 
 export type TransmissionFilter = "all" | "manual" | "automatic";
 export type FuelFilter = "all" | FuelType;
@@ -30,11 +31,11 @@ export function VehicleFilters({
   const t = vehicleTranslations[locale];
 
   return (
-    <div className="flex flex-wrap items-end gap-4 rounded-xl border border-[var(--border)] bg-white p-4">
-      <div className="flex flex-col gap-1.5">
+    <div className="flex flex-wrap items-end gap-6 rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+      <div className="flex flex-col gap-2">
         <label
           htmlFor="filter-seats"
-          className="text-sm font-medium text-[var(--foreground)]"
+          className="text-sm font-medium text-[var(--text-primary)]"
         >
           {t.filterSeats}
         </label>
@@ -46,7 +47,7 @@ export function VehicleFilters({
               e.target.value === "all" ? "all" : Number(e.target.value)
             )
           }
-          className="rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)] min-w-[120px]"
+          className={`${inputBase} min-w-[140px] py-2.5`}
         >
           <option value="all">{t.all}</option>
           {seats.map((n) => (
@@ -57,10 +58,10 @@ export function VehicleFilters({
         </select>
       </div>
 
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-2">
         <label
           htmlFor="filter-transmission"
-          className="text-sm font-medium text-[var(--foreground)]"
+          className="text-sm font-medium text-[var(--text-primary)]"
         >
           {t.filterTransmission}
         </label>
@@ -70,7 +71,7 @@ export function VehicleFilters({
           onChange={(e) =>
             onTransmissionChange(e.target.value as TransmissionFilter)
           }
-          className="rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)] min-w-[140px]"
+          className={`${inputBase} min-w-[160px] py-2.5`}
         >
           <option value="all">{t.all}</option>
           <option value="manual">{t.manual}</option>
@@ -78,10 +79,10 @@ export function VehicleFilters({
         </select>
       </div>
 
-      <div className="flex flex-col gap-1.5">
+      <div className="flex flex-col gap-2">
         <label
           htmlFor="filter-fuel"
-          className="text-sm font-medium text-[var(--foreground)]"
+          className="text-sm font-medium text-[var(--text-primary)]"
         >
           {t.filterFuel}
         </label>
@@ -89,7 +90,7 @@ export function VehicleFilters({
           id="filter-fuel"
           value={selectedFuel}
           onChange={(e) => onFuelChange(e.target.value as FuelFilter)}
-          className="rounded-lg border border-[var(--border)] bg-white px-3 py-2 text-sm text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-1 focus:ring-[var(--primary)] min-w-[120px]"
+          className={`${inputBase} min-w-[140px] py-2.5`}
         >
           <option value="all">{t.all}</option>
           <option value="diesel">{t.diesel}</option>

@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import { contactTranslations, type Locale } from "@/data/translations";
+import { inputBase } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
 
 interface ContactFormProps {
   locale: Locale;
@@ -36,13 +38,13 @@ export function ContactForm({ locale }: ContactFormProps) {
           <div
             key={s}
             className={`h-1 flex-1 rounded-full ${
-              s <= step ? "bg-[var(--primary)]" : "bg-[var(--border)]"
+              s <= step ? "bg-[var(--navy-primary)]" : "bg-[var(--border)]"
             }`}
             aria-hidden
           />
         ))}
       </div>
-      <p className="text-sm font-medium text-[var(--muted)]">
+      <p className="text-sm font-medium text-[var(--text-muted)]">
         {step === 1 && t.step1}
         {step === 2 && t.step2}
         {step === 3 && t.step3}
@@ -53,7 +55,7 @@ export function ContactForm({ locale }: ContactFormProps) {
           <div>
             <label
               htmlFor="contact-name"
-              className="mb-1.5 block text-sm font-medium text-[var(--foreground)]"
+              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
             >
               {t.fullName}
             </label>
@@ -63,14 +65,14 @@ export function ContactForm({ locale }: ContactFormProps) {
               required
               value={form.fullName}
               onChange={(e) => setForm((f) => ({ ...f, fullName: e.target.value }))}
-              className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-[var(--foreground)] placeholder:text-[var(--muted)] focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+              className={inputBase}
               placeholder="Jean Dupont"
             />
           </div>
           <div>
             <label
               htmlFor="contact-email"
-              className="mb-1.5 block text-sm font-medium text-[var(--foreground)]"
+              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
             >
               {t.email}
             </label>
@@ -80,14 +82,14 @@ export function ContactForm({ locale }: ContactFormProps) {
               required
               value={form.email}
               onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-              className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-[var(--foreground)] placeholder:text-[var(--muted)] focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+              className={inputBase}
               placeholder={t.emailPlaceholder}
             />
           </div>
           <div>
             <label
               htmlFor="contact-phone"
-              className="mb-1.5 block text-sm font-medium text-[var(--foreground)]"
+              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
             >
               {t.phone}
             </label>
@@ -96,7 +98,7 @@ export function ContactForm({ locale }: ContactFormProps) {
               type="tel"
               value={form.phone}
               onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-              className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-[var(--foreground)] placeholder:text-[var(--muted)] focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+              className={inputBase}
               placeholder={t.phonePlaceholder}
             />
           </div>
@@ -107,7 +109,7 @@ export function ContactForm({ locale }: ContactFormProps) {
         <div>
           <label
             htmlFor="contact-date"
-            className="mb-1.5 block text-sm font-medium text-[var(--foreground)]"
+            className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
           >
             {t.step2}
           </label>
@@ -117,7 +119,7 @@ export function ContactForm({ locale }: ContactFormProps) {
             required
             value={form.date}
             onChange={(e) => setForm((f) => ({ ...f, date: e.target.value }))}
-            className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+            className={inputBase}
           />
         </div>
       )}
@@ -126,7 +128,7 @@ export function ContactForm({ locale }: ContactFormProps) {
         <div>
           <label
             htmlFor="contact-time"
-            className="mb-1.5 block text-sm font-medium text-[var(--foreground)]"
+            className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
           >
             {t.step3}
           </label>
@@ -136,14 +138,14 @@ export function ContactForm({ locale }: ContactFormProps) {
             required
             value={form.time}
             onChange={(e) => setForm((f) => ({ ...f, time: e.target.value }))}
-            className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+            className={inputBase}
           />
         </div>
       )}
 
       <button
         type="submit"
-        className="w-full rounded-lg bg-[var(--primary)] px-6 py-3.5 font-semibold text-white transition-colors hover:bg-[var(--primary-hover)]"
+        className="inline-flex w-full items-center justify-center rounded-xl bg-[var(--navy-primary)] px-6 py-3.5 font-semibold text-white transition-colors hover:bg-[var(--navy-primary-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--navy-primary)] focus:ring-offset-2 sm:w-auto"
       >
         {step < 3 ? t.next : t.submit}
       </button>

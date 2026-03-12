@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import type { VehicleOption } from "@/data/types/vehicle";
 import { devisTranslations, vehicleTranslations, type Locale } from "@/data/translations";
+import { inputBase } from "@/components/ui/Card";
 
 interface QuoteRequestFormProps {
   vehicle: VehicleOption;
@@ -40,14 +41,14 @@ export function QuoteRequestForm({
 
   if (submitted) {
     return (
-      <div className="rounded-2xl border border-[var(--border)] bg-[var(--muted-bg)] p-8 text-center">
-        <h2 className="text-xl font-semibold text-[var(--primary)]">
+      <div className="rounded-xl border border-white/20 bg-white/70 p-8 text-center shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+        <h2 className="text-xl font-semibold text-[var(--navy-primary)]">
           {t.successTitle}
         </h2>
-        <p className="mt-4 text-[var(--muted)]">{t.successMessage}</p>
+        <p className="mt-4 text-[var(--text-secondary)]">{t.successMessage}</p>
         <Link
           href={vehicleDetailPath}
-          className="mt-6 inline-block text-sm font-medium text-[var(--primary)] hover:underline"
+          className="mt-6 inline-block text-sm font-medium text-[var(--navy-primary)] hover:underline"
         >
           {t.backToVehicle}
         </Link>
@@ -58,20 +59,20 @@ export function QuoteRequestForm({
   return (
     <form onSubmit={handleSubmit} className="space-y-8">
       {/* Vehicle summary */}
-      <section className="rounded-xl border border-[var(--border)] bg-white p-6">
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--primary)]">
+      <section className="rounded-xl border border-white/20 bg-white/70 p-6 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
           {t.vehicleChosen}
         </h3>
         <div className="mt-4 flex flex-wrap items-center justify-between gap-4">
           <div>
-            <p className="font-semibold text-[var(--foreground)]">
+            <p className="font-semibold text-[var(--text-primary)]">
               {vehicle.brand} {vehicle.name}
             </p>
-            <p className="mt-1 text-sm text-[var(--muted)]">
+            <p className="mt-1 text-sm text-[var(--text-muted)]">
               {vehicle.seats} {t.seats} · {transmissionLabel} · {fuelLabel}
             </p>
           </div>
-          <p className="text-xl font-bold text-[var(--primary)]">
+          <p className="text-xl font-bold text-[var(--navy-primary)]">
             {vehicle.pricePerMonth}€{t.perMonth}
           </p>
         </div>
@@ -79,14 +80,14 @@ export function QuoteRequestForm({
 
       {/* Personal info */}
       <section className="space-y-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--primary)]">
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
           {t.personalInfo}
         </h3>
         <div className="grid gap-4 sm:grid-cols-1">
           <div>
             <label
               htmlFor="quote-name"
-              className="mb-1.5 block text-sm font-medium text-[var(--foreground)]"
+              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
             >
               {t.fullName}
             </label>
@@ -98,14 +99,14 @@ export function QuoteRequestForm({
               onChange={(e) =>
                 setForm((f) => ({ ...f, fullName: e.target.value }))
               }
-              className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+              className={inputBase}
               placeholder="Jean Dupont"
             />
           </div>
           <div>
             <label
               htmlFor="quote-email"
-              className="mb-1.5 block text-sm font-medium text-[var(--foreground)]"
+              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
             >
               {t.email}
             </label>
@@ -115,14 +116,14 @@ export function QuoteRequestForm({
               required
               value={form.email}
               onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-              className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+              className={inputBase}
               placeholder="jean@exemple.fr"
             />
           </div>
           <div>
             <label
               htmlFor="quote-phone"
-              className="mb-1.5 block text-sm font-medium text-[var(--foreground)]"
+              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
             >
               {t.phone}
             </label>
@@ -131,7 +132,7 @@ export function QuoteRequestForm({
               type="tel"
               value={form.phone}
               onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-              className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+              className={inputBase}
               placeholder="06 12 34 56 78"
             />
           </div>
@@ -140,14 +141,14 @@ export function QuoteRequestForm({
 
       {/* Rental period */}
       <section className="space-y-4">
-        <h3 className="text-sm font-semibold uppercase tracking-wider text-[var(--primary)]">
+        <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
           {t.rentalPeriod}
         </h3>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
             <label
               htmlFor="quote-start"
-              className="mb-1.5 block text-sm font-medium text-[var(--foreground)]"
+              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
             >
               {t.startDate}
             </label>
@@ -159,13 +160,13 @@ export function QuoteRequestForm({
               onChange={(e) =>
                 setForm((f) => ({ ...f, startDate: e.target.value }))
               }
-              className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+              className={inputBase}
             />
           </div>
           <div>
             <label
               htmlFor="quote-end"
-              className="mb-1.5 block text-sm font-medium text-[var(--foreground)]"
+              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
             >
               {t.endDate}
             </label>
@@ -177,7 +178,7 @@ export function QuoteRequestForm({
               onChange={(e) =>
                 setForm((f) => ({ ...f, endDate: e.target.value }))
               }
-              className="w-full rounded-lg border border-[var(--border)] bg-white px-4 py-3 text-[var(--foreground)] focus:border-[var(--primary)] focus:outline-none focus:ring-2 focus:ring-[var(--primary)]/20"
+              className={inputBase}
             />
           </div>
         </div>
@@ -185,7 +186,7 @@ export function QuoteRequestForm({
 
       <button
         type="submit"
-        className="w-full rounded-xl bg-[var(--primary)] px-6 py-4 font-semibold text-white transition-colors hover:bg-[var(--primary-hover)] sm:w-auto sm:px-10"
+        className="w-full rounded-xl bg-[var(--navy-primary)] px-6 py-4 font-semibold text-white transition-colors hover:bg-[var(--navy-primary-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--navy-primary)] focus:ring-offset-2 sm:w-auto sm:px-10"
       >
         {t.submit}
       </button>

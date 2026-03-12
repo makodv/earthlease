@@ -73,7 +73,7 @@ export function VehicleListWithFilters({
           ))}
         </div>
       ) : (
-        <p className="rounded-xl border border-[var(--border)] bg-[var(--muted-bg)] px-6 py-12 text-center text-[var(--muted)]">
+        <p className="rounded-xl border border-[var(--border)] bg-[var(--background)] px-6 py-16 text-center text-[var(--text-secondary)]">
           {t.noResults}
         </p>
       )}
