@@ -1,11 +1,18 @@
 import type { VehicleOption } from "./types/vehicle";
 
 /** Passenger cars – shown on /vehicles (Voitures particuliers) */
-export const vehiclesParticulier: VehicleOption[] = [
+const IMG_RENAULT_SYMBIOZ = encodeURI("/symbioz pic.png");
+const IMG_RENAULT_CLIO = encodeURI("/clio.png");
+const IMG_PEUGEOT_208 = encodeURI("/208.png");
+const IMG_GOLF = encodeURI("/golf.png");
+const IMG_PEUGEOT_5008 = encodeURI("/5008.png");
+const IMG_RENAULT_MEGANE = encodeURI("/megane.png");
+
+const vehiclesParticulierBase: VehicleOption[] = [
   {
     id: "ev1",
-    slug: "renault-megane-e-tech",
-    name: "Mégane E-Tech",
+    slug: "renault-symbioz",
+    name: "Symbioz",
     brand: "Renault",
     pricePerMonth: 349,
     seats: 5,
@@ -13,18 +20,7 @@ export const vehiclesParticulier: VehicleOption[] = [
     fuelType: "electric",
     category: "Compact",
     vehicleCategory: "particulier",
-  },
-  {
-    id: "ev2",
-    slug: "peugeot-e-208",
-    name: "e-208",
-    brand: "Peugeot",
-    pricePerMonth: 319,
-    seats: 5,
-    transmission: "automatic",
-    fuelType: "electric",
-    category: "Compact",
-    vehicleCategory: "particulier",
+    image: IMG_RENAULT_SYMBIOZ,
   },
   {
     id: "1",
@@ -37,6 +33,7 @@ export const vehiclesParticulier: VehicleOption[] = [
     fuelType: "essence",
     category: "Compact",
     vehicleCategory: "particulier",
+    image: IMG_RENAULT_CLIO,
   },
   {
     id: "2",
@@ -49,6 +46,7 @@ export const vehiclesParticulier: VehicleOption[] = [
     fuelType: "essence",
     category: "Compact",
     vehicleCategory: "particulier",
+    image: IMG_PEUGEOT_208,
   },
   {
     id: "3",
@@ -61,30 +59,7 @@ export const vehiclesParticulier: VehicleOption[] = [
     fuelType: "diesel",
     category: "Compact",
     vehicleCategory: "particulier",
-  },
-  {
-    id: "4",
-    slug: "citroen-c3",
-    name: "C3",
-    brand: "Citroën",
-    pricePerMonth: 229,
-    seats: 5,
-    transmission: "manual",
-    fuelType: "essence",
-    category: "Compact",
-    vehicleCategory: "particulier",
-  },
-  {
-    id: "5",
-    slug: "fiat-500",
-    name: "500",
-    brand: "Fiat",
-    pricePerMonth: 199,
-    seats: 4,
-    transmission: "manual",
-    fuelType: "essence",
-    category: "City",
-    vehicleCategory: "particulier",
+    image: IMG_GOLF,
   },
   {
     id: "6",
@@ -97,6 +72,7 @@ export const vehiclesParticulier: VehicleOption[] = [
     fuelType: "diesel",
     category: "SUV",
     vehicleCategory: "particulier",
+    image: IMG_PEUGEOT_5008,
   },
   {
     id: "7",
@@ -109,15 +85,21 @@ export const vehiclesParticulier: VehicleOption[] = [
     fuelType: "diesel",
     category: "Compact",
     vehicleCategory: "particulier",
+    image: IMG_RENAULT_MEGANE,
   },
 ];
+
+export const vehiclesParticulier: VehicleOption[] = vehiclesParticulierBase.map(
+  (v) => ({ ...v, priceOnRequest: true })
+);
 
 /** Brochures in /public — spaces encoded for safe URLs */
 const PDF_FIAT_DUCATO = encodeURI("/brochure commercial _fiat_ducato 4035 XL.pdf");
 const PDF_KRENDL = encodeURI("/2_M99_NW75 (1).pdf");
+const IMG_FIAT_DUCATO = encodeURI("/ducato.png");
 
 /** Véhicules professionnels (flotte utilitaire) — /vehicles/professionnel */
-export const vehiclesProfessionnel: VehicleOption[] = [
+const vehiclesProfessionnelBase: VehicleOption[] = [
   {
     id: "pd1",
     slug: "fiat-ducato-4035-xl",
@@ -130,6 +112,7 @@ export const vehiclesProfessionnel: VehicleOption[] = [
     category: "Fourgon utilitaire",
     vehicleCategory: "professionnel",
     brochureUrl: PDF_FIAT_DUCATO,
+    image: IMG_FIAT_DUCATO,
   },
   {
     id: "p2",
@@ -156,6 +139,10 @@ export const vehiclesProfessionnel: VehicleOption[] = [
     vehicleCategory: "professionnel",
   },
 ];
+
+export const vehiclesProfessionnel: VehicleOption[] = vehiclesProfessionnelBase.map(
+  (v) => ({ ...v, priceOnRequest: true })
+);
 
 /** Matériel professionnel (équipement) — /vehicles/materiel-professionnel */
 export const vehiclesMaterielProfessionnel: VehicleOption[] = [

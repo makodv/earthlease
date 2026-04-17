@@ -7,4 +7,5 @@ export { contactTranslations } from "./contact";
 export { devisTranslations } from "./devis";
 export { faqTranslations } from "./faq";
 export { howItWorksTranslations } from "./howItWorks";
+export { audienceModalTranslations } from "./audienceModal";
 export type { Locale } from "./nav";

@@ -4,7 +4,7 @@ export const homeTranslations = {
     heroTitle: "Louez votre véhicule",
     heroSubtitle: "Tout compris dans une seule mensualité",
     heroDescription:
-      "Assurance, entretien, assistance routière 24/7. Une offre premium pour les professionnels et les particuliers qui veulent simplifier leur mobilité.",
+      "Assurance, entretien, assistance routière 24/7. Une offre premium pour les professionnels et les particuliers qui veulent simplifier leur mobilité. Tarification sur devis.",
     heroTrust: "Rejoignez les professionnels qui nous font confiance",
     ctaVehicles: "Voir les véhicules",
     trustTitle: "Pourquoi EarthLease",
@@ -40,13 +40,17 @@ export const homeTranslations = {
     review4Text: "Très bonne alternative pour un véhicule professionnel. Je conseille fortement.",
     // How it works
     howTitle: "Comment ça marche ?",
-    howSubtitle: "Louer en trois étapes simples.",
+    howProcessLabel: "Votre parcours en 4 étapes",
+    howSubtitle: "Quatre étapes claires, du catalogue à la route.",
     howStep1Title: "Choisissez votre véhicule",
     howStep1Desc: "Parcourez notre flotte, sélectionnez le modèle qui vous convient et la durée de location.",
     howStep2Title: "Demandez un devis",
     howStep2Desc: "Remplissez le formulaire en quelques minutes. Nous vous recontactons rapidement.",
     howStep3Title: "Récupérez votre véhicule",
-    howStep3Desc: "Récupérez votre véhicule à nos locaux ou profitez d'une livraison selon vos besoins.",
+    howStep3Desc: "Retrait sur site ou livraison selon vos besoins, en France.",
+    howStep4Title: "Roulez l’esprit tranquille",
+    howStep4Desc:
+      "Mensualité tout compris : assurance, entretien et assistance 24/7 pendant toute la durée.",
     howCta: "En savoir plus",
   },
   en: {
@@ -54,7 +58,7 @@ export const homeTranslations = {
     heroTitle: "Rent your vehicle",
     heroSubtitle: "All-inclusive monthly payment",
     heroDescription:
-      "Insurance, maintenance, 24/7 roadside assistance. A premium offer for businesses and individuals who want to simplify their mobility.",
+      "Insurance, maintenance, 24/7 roadside assistance. A premium offer for businesses and individuals who want to simplify their mobility. Pricing on quotation.",
     heroTrust: "Join the professionals who trust us",
     ctaVehicles: "See vehicles",
     trustTitle: "Why EarthLease",
@@ -86,13 +90,17 @@ export const homeTranslations = {
     review4Name: "Pierre D.",
     review4Text: "A very good option for a professional vehicle. I highly recommend.",
     howTitle: "How it works",
-    howSubtitle: "Rent in three simple steps.",
+    howProcessLabel: "Your journey in 4 steps",
+    howSubtitle: "Four clear steps, from catalogue to the road.",
     howStep1Title: "Choose your vehicle",
     howStep1Desc: "Browse our fleet, pick the model that suits you and the rental period.",
     howStep2Title: "Request a quote",
     howStep2Desc: "Fill in the form in a few minutes. We'll get back to you quickly.",
     howStep3Title: "Collect your vehicle",
-    howStep3Desc: "Pick up your vehicle at our premises or arrange delivery to your location.",
+    howStep3Desc: "Pick up on site or delivery across France, depending on your needs.",
+    howStep4Title: "Drive with peace of mind",
+    howStep4Desc:
+      "All-in monthly payment: insurance, maintenance and 24/7 assistance for the full term.",
     howCta: "Learn more",
   },
 } as const;

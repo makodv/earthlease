@@ -6,7 +6,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { navTranslations, vehicleTranslations, type Locale } from "@/data/translations";
 import { Button } from "@/components/ui/Button";
-import { catalogDefaultHref, catalogHref } from "@/lib/vehiclesCatalog";
+import { catalogHref } from "@/lib/vehiclesCatalog";
+import { useCatalogLandingFromAudience } from "@/hooks/useCatalogLandingFromAudience";
 
 const LOGO_SRC = "/logo.svg";
 
@@ -19,6 +20,7 @@ export function Navbar({ locale }: NavbarProps) {
   const searchParams = useSearchParams();
   const t = navTranslations[locale];
   const basePath = `/${locale}`;
+  const { catalogLandingHref: productsLandingHref } = useCatalogLandingFromAudience(basePath);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [productsMenuOpen, setProductsMenuOpen] = useState(false);
   const headerRef = useRef<HTMLElement>(null);
@@ -26,8 +28,6 @@ export function Navbar({ locale }: NavbarProps) {
   const navRef = useRef<HTMLElement>(null);
   const ctaRef = useRef<HTMLDivElement>(null);
   const productsDropdownRef = useRef<HTMLDivElement>(null);
-
-  const productsLandingHref = catalogDefaultHref(basePath);
 
   const productQuickLinks = useMemo(() => {
     const v = vehicleTranslations[locale];

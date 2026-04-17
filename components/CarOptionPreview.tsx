@@ -50,19 +50,37 @@ export function CarOptionPreview({ vehicle, locale, href, priceDisplay = "month"
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center text-[var(--text-muted)]">
-            <svg
-              className="h-14 w-14 opacity-40"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
-              />
-            </svg>
+            {isMateriel ? (
+              <svg
+                className="h-16 w-16 opacity-45"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.35}
+                  d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"
+                />
+              </svg>
+            ) : (
+              <svg
+                className="h-14 w-14 opacity-40"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+                aria-hidden
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4"
+                />
+              </svg>
+            )}
           </div>
         )}
         <span className="absolute left-4 top-4 rounded-lg border border-[var(--border)] bg-[var(--surface)]/95 px-2.5 py-1 text-xs font-medium text-[var(--text-primary)] shadow-sm">
@@ -121,14 +139,14 @@ export function CarOptionPreview({ vehicle, locale, href, priceDisplay = "month"
             ) : (
               <>
                 <p className="text-xs font-medium text-[var(--text-muted)]">
-                  {locale === "fr" ? "Tarification" : "Pricing"}
+                  {t.pricingSectionLabel}
                 </p>
                 <p className="mt-0.5 text-xl font-bold text-[var(--navy-primary)]">{t.priceOnRequest}</p>
               </>
             )}
           </div>
           <Button href={href} variant="primary" size="sm" className="shrink-0">
-            {t.viewDetails}
+            {isMateriel ? t.viewDetailsMateriel : t.viewDetails}
           </Button>
         </div>
       </div>

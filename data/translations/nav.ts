@@ -2,10 +2,10 @@ export const navTranslations = {
   fr: {
     nosProduits: "Nos produits",
     productsQuickMenuAria:
-      "Ouvrir le menu des gammes : particuliers, électrique, thermique, utilitaires, matériel",
+      "Ouvrir le menu des gammes : particuliers, électrique, thermique, utilitaires, matériel professionnel",
     products: "Produits",
-    materielPro: "Matériel pro",
-    materielProDesc: "Krendl, cardeuses-souffleuses, équipement",
+    materielPro: "Matériel professionnel",
+    materielProDesc: "Krendl, cardeuses-souffleuses, équipement chantier",
     particulierTitle: "Véhicules particuliers",
     particulierElectric: "Électrique",
     particulierElectricDesc: "Citadines et berlines 100% électriques",
@@ -26,8 +26,8 @@ export const navTranslations = {
     productsQuickMenuAria:
       "Open ranges menu: passenger, electric, petrol and diesel, vans, equipment",
     products: "Products",
-    materielPro: "Pro equipment",
-    materielProDesc: "Krendl blowing-wool machines, equipment",
+    materielPro: "Professional equipment",
+    materielProDesc: "Krendl blowing-wool machines, site equipment",
     particulierTitle: "Passenger vehicles",
     particulierElectric: "Electric",
     particulierElectricDesc: "Fully electric city cars and sedans",

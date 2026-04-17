@@ -10,7 +10,11 @@ import {
   vehiclesProfessionnel,
 } from "@/data/vehicles";
 import type { VehicleOption } from "@/data/types/vehicle";
-import { catalogDefaultHref, catalogHref } from "@/lib/vehiclesCatalog";
+import { catalogHref } from "@/lib/vehiclesCatalog";
+import {
+  EXPLORE_TAB_PRO_INDEX,
+  useCatalogLandingFromAudience,
+} from "@/hooks/useCatalogLandingFromAudience";
 
 const CARD_WIDTH = 296;
 const GAP = 24;
@@ -37,6 +41,8 @@ export function HomeExploreVehicles({ locale }: HomeExploreVehiclesProps) {
   const t = homeTranslations[locale];
   const vt = vehicleTranslations[locale];
   const basePath = `/${locale}`;
+  const { audience, hasMounted, catalogLandingHref } =
+    useCatalogLandingFromAudience(basePath);
 
   const previewTabs = useMemo((): PreviewTab[] => {
     const electric = vehiclesParticulier.filter((v) => v.fuelType === "electric");
@@ -48,7 +54,7 @@ export function HomeExploreVehicles({ locale }: HomeExploreVehiclesProps) {
         id: "particulier",
         label: vt.segmentParticulier,
         vehicles: vehiclesParticulier,
-        catalogHref: catalogDefaultHref(basePath),
+        catalogHref: catalogLandingHref,
       },
       {
         id: "electric",
@@ -75,10 +81,15 @@ export function HomeExploreVehicles({ locale }: HomeExploreVehiclesProps) {
         catalogHref: catalogHref(basePath, "materiel"),
       },
     ];
-  }, [basePath, vt]);
+  }, [basePath, vt, catalogLandingHref]);
 
   const [activeIndex, setActiveIndex] = useState(0);
   const activeTab = previewTabs[activeIndex] ?? previewTabs[0];
+
+  useEffect(() => {
+    if (!hasMounted) return;
+    setActiveIndex(audience === "professionnel" ? EXPLORE_TAB_PRO_INDEX : 0);
+  }, [hasMounted, audience]);
 
   const scrollRef = useRef<HTMLDivElement>(null);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -162,7 +173,7 @@ export function HomeExploreVehicles({ locale }: HomeExploreVehiclesProps) {
               ·
             </span>
             <Link
-              href={catalogDefaultHref(basePath)}
+              href={catalogLandingHref}
               className="font-medium text-[var(--text-secondary)] underline-offset-2 hover:text-[var(--navy-primary)] hover:underline"
             >
               {t.exploreCta}

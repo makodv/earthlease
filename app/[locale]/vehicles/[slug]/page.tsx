@@ -153,7 +153,7 @@ export default async function VehicleDetailPage({
             ) : (
               <>
                 <p className="text-sm font-medium text-[var(--text-muted)]">
-                  {locale === "fr" ? "Tarification" : "Pricing"}
+                  {t.pricingSectionLabel}
                 </p>
                 <p className="mt-1 text-3xl font-bold text-[var(--navy-primary)]">{t.priceOnRequest}</p>
               </>
@@ -220,7 +220,9 @@ export default async function VehicleDetailPage({
               </dd>
             </div>
             <div className="rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
-              <dt className="text-sm text-[var(--text-muted)]">{t.priceFrom}</dt>
+              <dt className="text-sm text-[var(--text-muted)]">
+                {showNumericPrice ? t.priceFrom : t.pricingSectionLabel}
+              </dt>
               <dd className="mt-1 font-semibold text-[var(--navy-primary)]">
                 {showNumericPrice ? `${vehicle.pricePerMonth}€ / ${t.perMonth}` : t.priceOnRequest}
               </dd>

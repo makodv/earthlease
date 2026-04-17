@@ -2,7 +2,9 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { FloatingWhatsApp } from "@/components/FloatingWhatsApp";
 import { HeroLayoutWrapper } from "@/components/HeroLayoutWrapper";
+import { WelcomeAudienceModal } from "@/components/WelcomeAudienceModal";
 import { isValidLocale, locales } from "@/lib/i18n";
 import type { Locale } from "@/data/translations";
 
@@ -30,6 +32,8 @@ export default async function LocaleLayout({
       </Suspense>
       <main className="flex-1">{children}</main>
       <Footer locale={locale as Locale} />
+      <FloatingWhatsApp />
+      <WelcomeAudienceModal locale={locale as Locale} />
     </HeroLayoutWrapper>
   );
 }

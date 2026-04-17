@@ -1,4 +1,5 @@
 import type { VehicleCategory } from "@/data/types/vehicle";
+import type { AudienceProfile } from "@/lib/audienceProfile";
 
 export type CatalogSegment = "particulier" | "professionnel" | "materiel";
 
@@ -29,8 +30,16 @@ export function motorisationPresetFromSearchParams(
   return "all";
 }
 
-/** Default “Nos produits” landing: voitures particulières (toutes motorisations). */
-export function catalogDefaultHref(basePath: string): string {
+/**
+ * Default “Nos produits” landing from saved profile, or passenger cars when unknown.
+ */
+export function catalogDefaultHref(
+  basePath: string,
+  audience?: AudienceProfile | null
+): string {
+  if (audience === "professionnel") {
+    return catalogHref(basePath, "professionnel");
+  }
   return catalogHref(basePath, "particulier");
 }
 

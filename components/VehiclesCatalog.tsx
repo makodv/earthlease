@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useMemo, useState, useEffect } from "react";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { CarOptionPreview, type PriceDisplay } from "@/components/CarOptionPreview";
 import {
   VehicleFilters,
@@ -17,6 +17,8 @@ import {
   catalogHref,
   type CatalogSegment,
 } from "@/lib/vehiclesCatalog";
+import { readAudienceProfile } from "@/lib/audienceProfile";
+import { useHasMounted } from "@/hooks/useHasMounted";
 
 interface VehiclesCatalogProps {
   allVehicles: VehicleOption[];
@@ -42,11 +44,24 @@ type Pill = {
 export function VehiclesCatalog({ allVehicles, locale, basePath }: VehiclesCatalogProps) {
   const t = vehicleTranslations[locale];
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const hasSyncedAudience = useHasMounted();
 
   const segment = useMemo(
     () => catalogSegmentFromSearchParams(searchParams),
     [searchParams]
   );
+
+  useEffect(() => {
+    if (!hasSyncedAudience) return;
+    const seg = searchParams.get("segment");
+    const motor = searchParams.get("motorisation");
+    if (seg || motor) return;
+    if (readAudienceProfile() !== "professionnel") return;
+    const next = new URLSearchParams(searchParams.toString());
+    next.set("segment", "professionnel");
+    router.replace(`${basePath}/vehicles?${next.toString()}`, { scroll: false });
+  }, [hasSyncedAudience, searchParams, router, basePath]);
 
   const motorPreset = useMemo(
     () => motorisationPresetFromSearchParams(searchParams, segment),
@@ -83,6 +98,11 @@ export function VehiclesCatalog({ allVehicles, locale, basePath }: VehiclesCatal
 
   const uniqueSeats = useMemo(
     () => Array.from(new Set(baseList.map((v) => v.seats))).sort((a, b) => a - b),
+    [baseList]
+  );
+
+  const anyNumericPriceInSegment = useMemo(
+    () => baseList.some((v) => !v.priceOnRequest && v.pricePerMonth > 0),
     [baseList]
   );
 
@@ -123,7 +143,13 @@ export function VehiclesCatalog({ allVehicles, locale, basePath }: VehiclesCatal
 
   return (
     <div className="space-y-10">
-      <div className="text-center">
+      <div
+        className={
+          segment === "materiel"
+            ? "text-center rounded-3xl border border-[var(--border)] bg-[linear-gradient(165deg,var(--muted)_0%,var(--surface)_50%,rgba(92,184,92,0.07)_100%)] px-5 py-8 shadow-[var(--shadow-card)] sm:px-10 sm:py-10"
+            : "text-center"
+        }
+      >
         <p className="text-xs font-semibold uppercase tracking-widest text-[var(--text-muted)]">
           {eyebrow}
         </p>
@@ -131,6 +157,43 @@ export function VehiclesCatalog({ allVehicles, locale, basePath }: VehiclesCatal
           {title}
         </h1>
         <p className="mx-auto mt-4 max-w-2xl text-[var(--text-secondary)]">{subtitle}</p>
+
+        {segment === "materiel" ? (
+          <div className="mx-auto mt-8 max-w-3xl">
+            <ul className="grid gap-4 text-left sm:grid-cols-3 sm:gap-5">
+              {[t.materielBenefit1, t.materielBenefit2, t.materielBenefit3].map((text) => (
+                <li
+                  key={text}
+                  className="flex gap-3 rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-4 py-4 shadow-[var(--shadow-ambient)]"
+                >
+                  <span
+                    className="mt-0.5 flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-[var(--navy-primary)]/10 text-[var(--navy-primary)]"
+                    aria-hidden
+                  >
+                    <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M5 13l4 4L19 7"
+                      />
+                    </svg>
+                  </span>
+                  <span className="text-sm leading-snug text-[var(--text-secondary)]">{text}</span>
+                </li>
+              ))}
+            </ul>
+            <Link
+              href={`${basePath}/contact`}
+              className="mt-6 inline-flex items-center justify-center rounded-full border border-[var(--navy-primary)]/25 bg-[var(--navy-primary)] px-6 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-[var(--navy-primary-hover)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--navy-primary)] focus-visible:ring-offset-2"
+            >
+              {t.materielContactCta}
+              <span className="ml-1.5" aria-hidden>
+                →
+              </span>
+            </Link>
+          </div>
+        ) : null}
       </div>
 
       <div className="space-y-3">
@@ -153,35 +216,37 @@ export function VehiclesCatalog({ allVehicles, locale, basePath }: VehiclesCatal
 
       {!isEquipment && (
         <div className="flex flex-col gap-6">
-          <div className="flex flex-wrap items-center justify-center gap-4 sm:justify-start">
-            <span className="text-sm font-medium text-[var(--text-primary)]">
-              {locale === "fr" ? "Tarifs affichés" : "Prices shown"}
-            </span>
-            <div className="flex rounded-xl border border-[var(--border)] bg-[var(--surface)] p-1 shadow-[var(--shadow-card)]">
-              <button
-                type="button"
-                onClick={() => setPriceDisplay("month")}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-                  priceDisplay === "month"
-                    ? "bg-[var(--navy-primary)] text-white shadow-sm"
-                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                }`}
-              >
-                {t.pricePerMonth}
-              </button>
-              <button
-                type="button"
-                onClick={() => setPriceDisplay("day")}
-                className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
-                  priceDisplay === "day"
-                    ? "bg-[var(--navy-primary)] text-white shadow-sm"
-                    : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
-                }`}
-              >
-                {t.pricePerDay}
-              </button>
+          {anyNumericPriceInSegment ? (
+            <div className="flex flex-wrap items-center justify-center gap-4 sm:justify-start">
+              <span className="text-sm font-medium text-[var(--text-primary)]">
+                {t.catalogPriceToggleLabel}
+              </span>
+              <div className="flex rounded-xl border border-[var(--border)] bg-[var(--surface)] p-1 shadow-[var(--shadow-card)]">
+                <button
+                  type="button"
+                  onClick={() => setPriceDisplay("month")}
+                  className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                    priceDisplay === "month"
+                      ? "bg-[var(--navy-primary)] text-white shadow-sm"
+                      : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                  }`}
+                >
+                  {t.pricePerMonth}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setPriceDisplay("day")}
+                  className={`rounded-lg px-4 py-2 text-sm font-medium transition-colors ${
+                    priceDisplay === "day"
+                      ? "bg-[var(--navy-primary)] text-white shadow-sm"
+                      : "text-[var(--text-secondary)] hover:text-[var(--text-primary)]"
+                  }`}
+                >
+                  {t.pricePerDay}
+                </button>
+              </div>
             </div>
-          </div>
+          ) : null}
           <VehicleFilters
             locale={locale}
             seats={uniqueSeats}
@@ -210,11 +275,7 @@ export function VehiclesCatalog({ allVehicles, locale, basePath }: VehiclesCatal
       ) : (
         <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] px-8 py-20 text-center shadow-[var(--shadow-card)]">
           <p className="text-[var(--text-secondary)]">{t.noResults}</p>
-          <p className="mt-2 text-sm text-[var(--text-muted)]">
-            {locale === "fr"
-              ? "Essayez une autre gamme ou d’ajuster les filtres."
-              : "Try another range or adjust the filters."}
-          </p>
+          <p className="mt-2 text-sm text-[var(--text-muted)]">{t.noResultsHint}</p>
           <Link
             href={catalogHref(basePath, "particulier")}
             className="mt-6 inline-block text-sm font-semibold text-[var(--navy-primary)] underline-offset-2 hover:underline"

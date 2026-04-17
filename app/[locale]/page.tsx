@@ -2,7 +2,6 @@ import { isValidLocale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
 import { HomeHero } from "@/components/HomeHero";
 import { HomeTrustBlock } from "@/components/HomeTrustBlock";
-import { HomeBrands } from "@/components/HomeBrands";
 import { HomeExploreVehicles } from "@/components/HomeExploreVehicles";
 import { HomeReviews } from "@/components/HomeReviews";
 import { HomeHowItWorks } from "@/components/HomeHowItWorks";
@@ -21,9 +20,8 @@ export default async function HomePage({
 
   return (
     <>
-      <HomeHero locale={locale as Locale} />
-      <HomeTrustBlock locale={locale as Locale} />
-      <HomeBrands locale={locale as Locale} />
+      <HomeHero locale={locale as Locale} heroImageSrc="/heroimage.png" />
+      <HomeTrustBlock locale={locale as Locale} imageSrc="/pourquoi section.png" />
       <HomeExploreVehicles locale={locale as Locale} />
       <HomeReviews locale={locale as Locale} />
       <HomeHowItWorks locale={locale as Locale} />
