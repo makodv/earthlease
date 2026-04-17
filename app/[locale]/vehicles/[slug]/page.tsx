@@ -2,6 +2,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getVehicleBySlug, getAllVehicleSlugs } from "@/data/vehicles";
 import { isValidLocale, locales } from "@/lib/i18n";
+import { listPathForVehicleCategory } from "@/lib/vehiclesCatalog";
 import { vehicleTranslations, type Locale } from "@/data/translations";
 import { Button } from "@/components/ui/Button";
 
@@ -24,14 +25,24 @@ export default async function VehicleDetailPage({
   const t = vehicleTranslations[locale as Locale];
   const transmissionLabel =
     vehicle.transmission === "automatic" ? t.automatic : t.manual;
-  const fuelLabel = vehicle.fuelType === "diesel" ? t.diesel : t.essence;
+  const fuelLabel =
+    vehicle.fuelType === "diesel"
+      ? t.diesel
+      : vehicle.fuelType === "electric"
+        ? t.electric
+        : t.essence;
 
-  const listPath =
+  const listPath = listPathForVehicleCategory(locale, vehicle.vehicleCategory);
+  const backLabel =
     vehicle.vehicleCategory === "professionnel"
-      ? `/${locale}/vehicles/professionnel`
-      : `/${locale}/vehicles`;
+      ? t.backToProList
+      : vehicle.vehicleCategory === "materiel"
+        ? t.backToMaterielList
+        : t.backToList;
   const contactPath = `/${locale}/contact`;
   const devisPath = `/${locale}/vehicles/${slug}/devis`;
+  const isMateriel = vehicle.vehicleCategory === "materiel";
+  const showNumericPrice = !vehicle.priceOnRequest && vehicle.pricePerMonth > 0;
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8" style={{ background: "radial-gradient(ellipse 80% 50% at 50% 0%, rgba(6,46,91,0.05) 0%, transparent 50%), #f4f7fb" }}>
@@ -52,7 +63,7 @@ export default async function VehicleDetailPage({
             d="M15 19l-7-7 7-7"
           />
         </svg>
-        {t.backToList}
+        {backLabel}
       </Link>
 
       <div className="grid gap-10 lg:grid-cols-2 lg:gap-16">
@@ -95,26 +106,58 @@ export default async function VehicleDetailPage({
             {vehicle.name}
           </h1>
 
-          <p className="mt-5 flex flex-wrap gap-4 text-sm text-[var(--text-secondary)]">
-            <span>{vehicle.seats} {t.seats}</span>
-            <span>{transmissionLabel}</span>
-            <span>{fuelLabel}</span>
-          </p>
+          {isMateriel ? (
+            <p className="mt-5 text-sm text-[var(--text-secondary)]">
+              <span className="font-medium text-[var(--text-primary)]">{t.equipmentLine}</span>
+              {vehicle.category ? (
+                <>
+                  {" · "}
+                  {vehicle.category}
+                </>
+              ) : null}
+            </p>
+          ) : (
+            <p className="mt-5 flex flex-wrap gap-4 text-sm text-[var(--text-secondary)]">
+              <span>
+                {vehicle.seats} {t.seats}
+              </span>
+              <span>{transmissionLabel}</span>
+              <span>{fuelLabel}</span>
+            </p>
+          )}
+
+          {vehicle.brochureUrl ? (
+            <a
+              href={vehicle.brochureUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-4 inline-flex text-sm font-semibold text-[var(--navy-primary)] underline-offset-2 hover:underline"
+            >
+              {t.brochurePdf}
+            </a>
+          ) : null}
 
           <div className="mt-8 rounded-xl border border-white/20 bg-white/70 p-6 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
-            <p className="text-sm font-medium text-[var(--text-muted)]">
-              {t.priceFrom}
-            </p>
-            <p className="mt-1 text-3xl font-bold text-[var(--navy-primary)]">
-              {vehicle.pricePerMonth.toLocaleString(
-                locale === "fr" ? "fr-FR" : "en-US"
-              )}
-              {vehicle.currency ?? "€"}
-              <span className="text-lg font-normal text-[var(--text-muted)]">
-                {t.perMonth}
-              </span>
-            </p>
-            <p className="mt-1 text-sm text-[var(--text-muted)]">{t.allIncluded}</p>
+            {showNumericPrice ? (
+              <>
+                <p className="text-sm font-medium text-[var(--text-muted)]">{t.priceFrom}</p>
+                <p className="mt-1 text-3xl font-bold text-[var(--navy-primary)]">
+                  {vehicle.pricePerMonth.toLocaleString(
+                    locale === "fr" ? "fr-FR" : "en-US"
+                  )}
+                  {vehicle.currency ?? "€"}
+                  <span className="text-lg font-normal text-[var(--text-muted)]">{t.perMonth}</span>
+                </p>
+                <p className="mt-1 text-sm text-[var(--text-muted)]">{t.allIncluded}</p>
+              </>
+            ) : (
+              <>
+                <p className="text-sm font-medium text-[var(--text-muted)]">
+                  {locale === "fr" ? "Tarification" : "Pricing"}
+                </p>
+                <p className="mt-1 text-3xl font-bold text-[var(--navy-primary)]">{t.priceOnRequest}</p>
+              </>
+            )}
           </div>
 
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:gap-5">
@@ -132,32 +175,58 @@ export default async function VehicleDetailPage({
         <h2 className="text-section-title text-[var(--text-primary)]">
           {t.specs}
         </h2>
-        <dl className="mt-8 grid gap-4 sm:grid-cols-2">
-          <div className="rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
-            <dt className="text-sm text-[var(--text-muted)]">{t.seats}</dt>
-            <dd className="mt-1 font-semibold text-[var(--text-primary)]">
-              {vehicle.seats}
-            </dd>
-          </div>
-          <div className="rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
-            <dt className="text-sm text-[var(--text-muted)]">{t.transmission}</dt>
-            <dd className="mt-1 font-semibold text-[var(--text-primary)]">
-              {transmissionLabel}
-            </dd>
-          </div>
-          <div className="rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
-            <dt className="text-sm text-[var(--text-muted)]">{t.filterFuel}</dt>
-            <dd className="mt-1 font-semibold text-[var(--text-primary)]">
-              {fuelLabel}
-            </dd>
-          </div>
-          <div className="rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
-            <dt className="text-sm text-[var(--text-muted)]">{t.priceFrom}</dt>
-            <dd className="mt-1 font-semibold text-[var(--navy-primary)]">
-              {vehicle.pricePerMonth}€ / {t.perMonth}
-            </dd>
-          </div>
-        </dl>
+        {isMateriel ? (
+          <dl className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+              <dt className="text-sm text-[var(--text-muted)]">{t.equipmentLine}</dt>
+              <dd className="mt-1 font-semibold text-[var(--text-primary)]">
+                {vehicle.category ?? "—"}
+              </dd>
+            </div>
+            {vehicle.brochureUrl ? (
+              <div className="rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+                <dt className="text-sm text-[var(--text-muted)]">{t.brochurePdf}</dt>
+                <dd className="mt-1">
+                  <a
+                    href={vehicle.brochureUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="font-semibold text-[var(--navy-primary)] underline-offset-2 hover:underline"
+                  >
+                    {t.brochurePdf}
+                  </a>
+                </dd>
+              </div>
+            ) : null}
+          </dl>
+        ) : (
+          <dl className="mt-8 grid gap-4 sm:grid-cols-2">
+            <div className="rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+              <dt className="text-sm text-[var(--text-muted)]">{t.seats}</dt>
+              <dd className="mt-1 font-semibold text-[var(--text-primary)]">
+                {vehicle.seats}
+              </dd>
+            </div>
+            <div className="rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+              <dt className="text-sm text-[var(--text-muted)]">{t.transmission}</dt>
+              <dd className="mt-1 font-semibold text-[var(--text-primary)]">
+                {transmissionLabel}
+              </dd>
+            </div>
+            <div className="rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+              <dt className="text-sm text-[var(--text-muted)]">{t.filterFuel}</dt>
+              <dd className="mt-1 font-semibold text-[var(--text-primary)]">
+                {fuelLabel}
+              </dd>
+            </div>
+            <div className="rounded-xl border border-white/20 bg-white/70 p-5 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+              <dt className="text-sm text-[var(--text-muted)]">{t.priceFrom}</dt>
+              <dd className="mt-1 font-semibold text-[var(--navy-primary)]">
+                {showNumericPrice ? `${vehicle.pricePerMonth}€ / ${t.perMonth}` : t.priceOnRequest}
+              </dd>
+            </div>
+          </dl>
+        )}
       </section>
     </div>
   );

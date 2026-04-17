@@ -19,11 +19,14 @@ export const homeTranslations = {
     trustProDesc: "Une équipe dédiée pour vous conseiller, du devis à la livraison. Réactivité et fiabilité.",
     // Brands
     brandsTitle: "Quelques-unes de nos marques",
-    // Explore vehicles (Découvrez nos voitures style)
-    exploreEyebrow: "Voitures sur mesure",
-    exploreTitle: "Découvrez nos voitures",
-    exploreSubtitle: "Choisissez votre voiture parmi plusieurs marques et modèles différents.",
-    exploreCta: "Voir toutes les voitures",
+    // Explore — aligné sur le catalogue / Nos produits
+    exploreEyebrow: "Catalogue",
+    exploreTitle: "Nos produits",
+    exploreSubtitle:
+      "Voitures particulières, utilitaires et matériel professionnel. Choisissez une gamme pour ouvrir le catalogue avec les bons filtres — ou parcourez un aperçu de nos citadines et berlines ci-dessous.",
+    exploreCta: "Ouvrir le catalogue",
+    exploreCarouselCaption: "Aperçu",
+    exploreSeeRangeInCatalog: "Voir cette gamme au catalogue",
     // Reviews
     reviewsTitle: "Nos clients témoignent",
     reviewsSubtitle: "Découvrez les avis de ceux qui nous font confiance.",
@@ -65,10 +68,13 @@ export const homeTranslations = {
     trustPro: "Professional support",
     trustProDesc: "A dedicated team to advise you from quote to delivery. Responsive and reliable.",
     brandsTitle: "Some of our brands",
-    exploreEyebrow: "Cars on demand",
-    exploreTitle: "Discover our cars",
-    exploreSubtitle: "Choose your car from a range of brands and models.",
-    exploreCta: "See all vehicles",
+    exploreEyebrow: "Catalogue",
+    exploreTitle: "Our products",
+    exploreSubtitle:
+      "Passenger cars, commercial vans and professional equipment. Pick a range to open the catalogue with the right filters — or browse a sample of our city cars and saloons below.",
+    exploreCta: "Open catalogue",
+    exploreCarouselCaption: "Preview",
+    exploreSeeRangeInCatalog: "See this range in the catalogue",
     reviewsTitle: "What our customers say",
     reviewsSubtitle: "See what people who trust us have to say.",
     review1Name: "Marie L.",

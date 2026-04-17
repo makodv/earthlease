@@ -13,6 +13,8 @@ interface HomeVehicleCardProps {
 export function HomeVehicleCard({ vehicle, locale }: HomeVehicleCardProps) {
   const t = vehicleTranslations[locale];
   const href = `/${locale}/vehicles/${vehicle.slug}`;
+  const showNumericPrice = !vehicle.priceOnRequest && vehicle.pricePerMonth > 0;
+  const localeStr = locale === "fr" ? "fr-FR" : "en-US";
 
   return (
     <Link
@@ -54,9 +56,15 @@ export function HomeVehicleCard({ vehicle, locale }: HomeVehicleCardProps) {
           {vehicle.brand} {vehicle.name}
         </h3>
         <p className="mt-1 text-sm text-[var(--text-secondary)]">
-          {t.from} {vehicle.pricePerMonth.toLocaleString(locale === "fr" ? "fr-FR" : "en-US")}
-          {vehicle.currency ?? "€"}
-          {t.perMonth}
+          {showNumericPrice ? (
+            <>
+              {t.from} {vehicle.pricePerMonth.toLocaleString(localeStr)}
+              {vehicle.currency ?? "€"}
+              {t.perMonth}
+            </>
+          ) : (
+            <span className="font-medium text-[var(--text-primary)]">{t.priceOnRequest}</span>
+          )}
         </p>
       </div>
     </Link>

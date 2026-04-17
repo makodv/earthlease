@@ -5,7 +5,8 @@ import type { FuelType } from "@/data/types/vehicle";
 import { inputBase } from "@/components/ui/Card";
 
 export type TransmissionFilter = "all" | "manual" | "automatic";
-export type FuelFilter = "all" | FuelType;
+/** `thermique` = essence + diesel (non-électrique) */
+export type FuelFilter = "all" | FuelType | "thermique";
 
 interface VehicleFiltersProps {
   locale: Locale;
@@ -93,6 +94,8 @@ export function VehicleFilters({
           className={`${inputBase} min-w-[140px] rounded-xl py-2.5`}
         >
           <option value="all">{t.all}</option>
+          <option value="electric">{t.electric}</option>
+          <option value="thermique">{t.thermique}</option>
           <option value="diesel">{t.diesel}</option>
           <option value="essence">{t.essence}</option>
         </select>

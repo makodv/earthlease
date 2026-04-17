@@ -6,6 +6,7 @@ import gsap from "gsap";
 import { homeTranslations } from "@/data/translations/home";
 import { navTranslations, type Locale } from "@/data/translations";
 import { Button } from "@/components/ui/Button";
+import { catalogDefaultHref } from "@/lib/vehiclesCatalog";
 
 interface HomeHeroProps {
   locale: Locale;
@@ -81,7 +82,7 @@ export function HomeHero({ locale, heroImageSrc }: HomeHeroProps) {
           className="mt-10 flex flex-col items-center gap-4 sm:flex-row sm:gap-5 lg:items-start"
         >
           <Button
-            href={`/${locale}/vehicles`}
+            href={catalogDefaultHref(`/${locale}`)}
             variant="accent"
             size="lg"
             className="min-w-[200px] rounded-full"

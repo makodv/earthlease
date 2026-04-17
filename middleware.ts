@@ -5,10 +5,26 @@ const locales = ["fr", "en"] as const;
 
 // Static assets in public/ (don't redirect these to /fr/...)
 const isStaticAsset = (pathname: string) =>
-  /\.(svg|png|jpg|jpeg|gif|webp|ico|css|js|woff2?|ttf|eot)$/i.test(pathname);
+  /\.(svg|png|jpg|jpeg|gif|webp|ico|css|js|woff2?|ttf|eot|pdf)$/i.test(pathname);
+
+/** Dev / infra paths that must never hit locale redirect logic (avoids Turbopack compile loops). */
+function isInternalOrVendorPath(pathname: string): boolean {
+  return (
+    pathname.startsWith("/_next") ||
+    pathname.startsWith("/__nextjs") ||
+    pathname.startsWith("/__turbopack") ||
+    pathname.startsWith("/api") ||
+    pathname.startsWith("/.well-known") ||
+    pathname.startsWith("/_vercel") ||
+    pathname.startsWith("/ingest") ||
+    pathname.startsWith("/monitoring")
+  );
+}
 
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
+
+  if (isInternalOrVendorPath(pathname)) return NextResponse.next();
 
   // Let static assets (e.g. /logo.svg) be served from root
   if (isStaticAsset(pathname)) return NextResponse.next();
@@ -30,5 +46,9 @@ export function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!api|_next/static|_next/image|favicon.ico).*)"],
+  // Skip Next internals, APIs, Vercel, and “file-like” paths (e.g. /logo.svg, /file.pdf).
+  matcher: [
+    "/",
+    "/((?!api|_next|_vercel|favicon\\.ico|[^/]+\\.[^/]+$).*)",
+  ],
 };

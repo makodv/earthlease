@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
@@ -24,7 +25,9 @@ export default async function LocaleLayout({
 
   return (
     <HeroLayoutWrapper locale={locale}>
-      <Navbar locale={locale as Locale} />
+      <Suspense fallback={<div className="min-h-[88px] w-full" aria-hidden />}>
+        <Navbar locale={locale as Locale} />
+      </Suspense>
       <main className="flex-1">{children}</main>
       <Footer locale={locale as Locale} />
     </HeroLayoutWrapper>

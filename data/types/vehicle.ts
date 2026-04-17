@@ -1,7 +1,7 @@
-export type FuelType = "diesel" | "essence";
+export type FuelType = "diesel" | "essence" | "electric";
 
-/** "particulier" = passenger cars, "professionnel" = commercial/construction/utility */
-export type VehicleCategory = "particulier" | "professionnel";
+/** particulier = cars; professionnel = vans/fleet; materiel = equipment (e.g. Krendl) */
+export type VehicleCategory = "particulier" | "professionnel" | "materiel";
 
 export interface VehicleOption {
   id: string;
@@ -18,4 +18,8 @@ export interface VehicleOption {
   category?: string;
   /** For filtering: passenger cars vs professional vehicles */
   vehicleCategory: VehicleCategory;
+  /** Public URL to a brochure PDF (filename may contain spaces — use encodeURI when building) */
+  brochureUrl?: string;
+  /** When true, listings show “sur devis” instead of a numeric price */
+  priceOnRequest?: boolean;
 }

@@ -194,8 +194,8 @@ body {
 .hero-full-bleed {
   width: 100vw;
   margin-left: calc(-50vw + 50%);
-  margin-top: -6rem; /* pull up behind navbar (navbar min-h ~96px) */
-  padding-top: 6rem; /* content starts below navbar */
+  margin-top: -6.25rem; /* tiny overlap buffer removes seam line under navbar */
+  padding-top: 6.25rem; /* content starts below navbar */
 }
 
 /* Navbar over hero: transparent, light text — only when hero is in view (not scrolled past) */
@@ -205,8 +205,10 @@ body {
   box-shadow: none;
 }
 [data-hero-active="true"]:not([data-hero-scrolled="true"]) .navbar-organic .navbar-pill {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.2);
+  border-color: rgba(255, 255, 255, 0.3);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 [data-hero-active="true"]:not([data-hero-scrolled="true"]) .navbar-organic .navbar-pill a,
 [data-hero-active="true"]:not([data-hero-scrolled="true"]) .navbar-organic .navbar-pill button {
@@ -215,6 +217,12 @@ body {
 [data-hero-active="true"]:not([data-hero-scrolled="true"]) .navbar-organic .navbar-pill a:hover,
 [data-hero-active="true"]:not([data-hero-scrolled="true"]) .navbar-organic .navbar-pill button:hover {
   color: #fff !important;
+}
+[data-hero-active="true"]:not([data-hero-scrolled="true"]) .navbar-organic .navbar-pill .navbar-products-chevron:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+}
+[data-hero-active="true"]:not([data-hero-scrolled="true"]) .navbar-organic .navbar-pill .navbar-products-active-line {
+  background: rgba(255, 255, 255, 0.9) !important;
 }
 [data-hero-active="true"]:not([data-hero-scrolled="true"]) .navbar-organic .navbar-pill span {
   color: rgba(255, 255, 255, 0.95) !important;

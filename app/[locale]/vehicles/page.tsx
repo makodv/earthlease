@@ -1,8 +1,25 @@
+import type { Metadata } from "next";
+import { Suspense } from "react";
 import { isValidLocale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
-import { VehicleListWithFilters } from "@/components/VehicleListWithFilters";
-import { vehiclesParticulier } from "@/data/vehicles";
+import { VehiclesCatalog } from "@/components/VehiclesCatalog";
+import { sampleVehicles } from "@/data/vehicles";
 import type { Locale } from "@/data/translations";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  const fr = locale === "fr";
+  return {
+    title: fr ? "Nos produits | EarthLease" : "Our products | EarthLease",
+    description: fr
+      ? "Voitures particulières, utilitaires et matériel professionnel. Filtrez par gamme et motorisation."
+      : "Passenger cars, commercial vans and professional equipment. Filter by range and powertrain.",
+  };
+}
 
 export default async function VehiclesPage({
   params,
@@ -12,32 +29,23 @@ export default async function VehiclesPage({
   const { locale } = await params;
   if (!isValidLocale(locale)) notFound();
 
-  const eyebrow = locale === "fr" ? "Voitures particuliers" : "Passenger cars";
-  const title = locale === "fr" ? "Nos véhicules" : "Our vehicles";
-  const subtitle =
-    locale === "fr"
-      ? "Choisissez le véhicule qui vous correspond. Tout compris dans une seule mensualité."
-      : "Choose the vehicle that suits you. All-inclusive monthly payment.";
-
   return (
     <div className="section-vehicles-organic min-h-[60vh]">
       <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-20 lg:px-8">
-        <p className="text-center text-xs font-semibold uppercase tracking-widest text-[var(--text-muted)]">
-          {eyebrow}
-        </p>
-        <h1 className="mt-3 text-center text-3xl font-bold text-[var(--text-primary)] sm:text-4xl">
-          {title}
-        </h1>
-        <p className="mx-auto mt-4 max-w-xl text-center text-[var(--text-secondary)]">
-          {subtitle}
-        </p>
-
-        <div className="mt-14">
-          <VehicleListWithFilters
-            vehicles={vehiclesParticulier}
-            locale={locale as Locale}
-            basePath={`/${locale}`}
-          />
+        <div className="mt-2">
+          <Suspense
+            fallback={
+              <div className="min-h-[320px] rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-8 text-center text-sm text-[var(--text-muted)]">
+                {locale === "fr" ? "Chargement…" : "Loading…"}
+              </div>
+            }
+          >
+            <VehiclesCatalog
+              allVehicles={sampleVehicles}
+              locale={locale as Locale}
+              basePath={`/${locale}`}
+            />
+          </Suspense>
         </div>
       </div>
     </div>

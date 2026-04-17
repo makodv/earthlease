@@ -3,6 +3,30 @@ import type { VehicleOption } from "./types/vehicle";
 /** Passenger cars – shown on /vehicles (Voitures particuliers) */
 export const vehiclesParticulier: VehicleOption[] = [
   {
+    id: "ev1",
+    slug: "renault-megane-e-tech",
+    name: "Mégane E-Tech",
+    brand: "Renault",
+    pricePerMonth: 349,
+    seats: 5,
+    transmission: "automatic",
+    fuelType: "electric",
+    category: "Compact",
+    vehicleCategory: "particulier",
+  },
+  {
+    id: "ev2",
+    slug: "peugeot-e-208",
+    name: "e-208",
+    brand: "Peugeot",
+    pricePerMonth: 319,
+    seats: 5,
+    transmission: "automatic",
+    fuelType: "electric",
+    category: "Compact",
+    vehicleCategory: "particulier",
+  },
+  {
     id: "1",
     slug: "renault-clio",
     name: "Clio",
@@ -88,19 +112,24 @@ export const vehiclesParticulier: VehicleOption[] = [
   },
 ];
 
-/** Professional / commercial vehicles – shown on /vehicles/professionnel */
+/** Brochures in /public — spaces encoded for safe URLs */
+const PDF_FIAT_DUCATO = encodeURI("/brochure commercial _fiat_ducato 4035 XL.pdf");
+const PDF_KRENDL = encodeURI("/2_M99_NW75 (1).pdf");
+
+/** Véhicules professionnels (flotte utilitaire) — /vehicles/professionnel */
 export const vehiclesProfessionnel: VehicleOption[] = [
   {
-    id: "p1",
-    slug: "renault-master",
-    name: "Master",
-    brand: "Renault",
-    pricePerMonth: 449,
+    id: "pd1",
+    slug: "fiat-ducato-4035-xl",
+    name: "Ducato 4035 XL",
+    brand: "Fiat",
+    pricePerMonth: 549,
     seats: 3,
     transmission: "manual",
     fuelType: "diesel",
-    category: "Fourgon",
+    category: "Fourgon utilitaire",
     vehicleCategory: "professionnel",
+    brochureUrl: PDF_FIAT_DUCATO,
   },
   {
     id: "p2",
@@ -108,18 +137,6 @@ export const vehiclesProfessionnel: VehicleOption[] = [
     name: "Boxer",
     brand: "Peugeot",
     pricePerMonth: 499,
-    seats: 3,
-    transmission: "manual",
-    fuelType: "diesel",
-    category: "Fourgon",
-    vehicleCategory: "professionnel",
-  },
-  {
-    id: "p3",
-    slug: "citroen-jumper",
-    name: "Jumper",
-    brand: "Citroën",
-    pricePerMonth: 479,
     seats: 3,
     transmission: "manual",
     fuelType: "diesel",
@@ -138,29 +155,23 @@ export const vehiclesProfessionnel: VehicleOption[] = [
     category: "Fourgon",
     vehicleCategory: "professionnel",
   },
+];
+
+/** Matériel professionnel (équipement) — /vehicles/materiel-professionnel */
+export const vehiclesMaterielProfessionnel: VehicleOption[] = [
   {
-    id: "p5",
-    slug: "mercedes-sprinter",
-    name: "Sprinter",
-    brand: "Mercedes-Benz",
-    pricePerMonth: 599,
-    seats: 3,
-    transmission: "automatic",
-    fuelType: "diesel",
-    category: "Fourgon",
-    vehicleCategory: "professionnel",
-  },
-  {
-    id: "p6",
-    slug: "iveco-daily",
-    name: "Daily",
-    brand: "Iveco",
-    pricePerMonth: 549,
-    seats: 3,
+    id: "m1",
+    slug: "krendl-cardeuse-souffleuse",
+    name: "Cardeuse-souffleuse",
+    brand: "Krendl",
+    pricePerMonth: 0,
+    priceOnRequest: true,
+    seats: 0,
     transmission: "manual",
     fuelType: "diesel",
-    category: "Utilitaire",
-    vehicleCategory: "professionnel",
+    category: "Matériel de chantier",
+    vehicleCategory: "materiel",
+    brochureUrl: PDF_KRENDL,
   },
 ];
 
@@ -168,6 +179,7 @@ export const vehiclesProfessionnel: VehicleOption[] = [
 export const sampleVehicles: VehicleOption[] = [
   ...vehiclesParticulier,
   ...vehiclesProfessionnel,
+  ...vehiclesMaterielProfessionnel,
 ];
 
 export function getVehicleBySlug(slug: string): VehicleOption | null {
