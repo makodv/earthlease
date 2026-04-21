@@ -16,7 +16,7 @@ export function WelcomeAudienceModal({ locale }: WelcomeAudienceModalProps) {
   const t = audienceModalTranslations[locale];
   const audience = useAudienceProfile();
   const hasMounted = useHasMounted();
-  const particulierRef = useRef<HTMLButtonElement>(null);
+  const individuelRef = useRef<HTMLButtonElement>(null);
 
   const visible = hasMounted && audience === null;
 
@@ -28,7 +28,7 @@ export function WelcomeAudienceModal({ locale }: WelcomeAudienceModalProps) {
     if (!visible) return;
     const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    particulierRef.current?.focus();
+    individuelRef.current?.focus();
     return () => {
       document.body.style.overflow = prev;
     };
@@ -38,7 +38,7 @@ export function WelcomeAudienceModal({ locale }: WelcomeAudienceModalProps) {
     if (!visible) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        choose("particulier");
+        choose("individuel");
       }
     };
     window.addEventListener("keydown", onKey);
@@ -93,10 +93,10 @@ export function WelcomeAudienceModal({ locale }: WelcomeAudienceModalProps) {
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 sm:gap-5">
           <button
-            ref={particulierRef}
+            ref={individuelRef}
             type="button"
-            aria-label={t.particulierAria}
-            onClick={() => choose("particulier")}
+            aria-label={t.individuelAria}
+            onClick={() => choose("individuel")}
             className="group flex flex-col rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 text-left shadow-[var(--shadow-card)] transition hover:border-[var(--navy-primary)]/25 hover:shadow-[var(--shadow-lift)] focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--navy-primary)] focus-visible:ring-offset-2"
           >
             <span
@@ -113,10 +113,10 @@ export function WelcomeAudienceModal({ locale }: WelcomeAudienceModalProps) {
               </svg>
             </span>
             <span className="mt-4 text-base font-bold text-[var(--text-primary)]">
-              {t.particulierTitle}
+              {t.individuelTitle}
             </span>
             <span className="mt-2 text-sm leading-relaxed text-[var(--text-secondary)]">
-              {t.particulierDesc}
+              {t.individuelDesc}
             </span>
           </button>
 

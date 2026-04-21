@@ -1,7 +1,7 @@
 export type FuelType = "diesel" | "essence" | "electric";
 
-/** particulier = cars; professionnel = vans/fleet; materiel = equipment (e.g. Krendl) */
-export type VehicleCategory = "particulier" | "professionnel" | "materiel";
+/** individuel = cars; professionnel = vans/fleet; materiel = equipment (e.g. Krendl) */
+export type VehicleCategory = "individuel" | "professionnel" | "materiel";
 
 export interface VehicleOption {
   id: string;

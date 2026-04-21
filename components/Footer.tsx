@@ -63,7 +63,7 @@ export function Footer({ locale }: FooterProps) {
               {citySlugs.map((city) => (
                 <li key={city}>
                   <Link
-                    href={`${basePath}/vehicles?city=${city}`}
+                    href={`${basePath}/vehicles`}
                     className="transition-colors hover:text-white"
                   >
                     {t.cities[city]}
@@ -109,7 +109,7 @@ export function Footer({ locale }: FooterProps) {
             <h4 className="text-xs font-semibold uppercase tracking-wider text-white/95">
               {t.needHelp}
             </h4>
-            <p className="mt-6 text-sm text-white/70">L-V 9:00h - 18:00h</p>
+            <p className="mt-6 text-sm text-white/70">{t.officeHours}</p>
             <p className="mt-3 text-sm">
               <span className="text-white/70">{t.customerService}:</span>{" "}
               <a
@@ -149,13 +149,13 @@ export function Footer({ locale }: FooterProps) {
               {t.termsOfUse}
             </Link>
             <Link
-              href={`${basePath}/confidentialite`}
+              href={`${basePath}/confidentialite-rgpd`}
               className="text-white/70 transition-colors hover:text-white"
             >
               {t.privacyPolicy}
             </Link>
             <Link
-              href={`${basePath}/cookies`}
+              href={`${basePath}/confidentialite-rgpd#cookies`}
               className="text-white/70 transition-colors hover:text-white"
             >
               {t.cookiePolicy}

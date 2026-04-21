@@ -1,7 +1,7 @@
 import type { VehicleCategory } from "@/data/types/vehicle";
 import type { AudienceProfile } from "@/lib/audienceProfile";
 
-export type CatalogSegment = "particulier" | "professionnel" | "materiel";
+export type CatalogSegment = "individuel" | "professionnel" | "materiel";
 
 const MOTOR_ELEC = "electrique";
 const MOTOR_THERM = "thermique";
@@ -12,18 +12,18 @@ export function catalogSegmentFromSearchParams(
   const raw = searchParams.get("segment")?.toLowerCase() ?? "";
   if (raw === "professionnel" || raw === "pro") return "professionnel";
   if (raw === "materiel" || raw === "equipment") return "materiel";
-  if (raw === "particulier") return "particulier";
+  if (raw === "individuel" || raw === "particulier") return "individuel";
   const motorOnly = searchParams.get("motorisation");
-  if (motorOnly) return "particulier";
-  return "particulier";
+  if (motorOnly) return "individuel";
+  return "individuel";
 }
 
-/** URL preset for passenger fuel (only when segment is particulier). */
+/** URL preset for passenger fuel (only when segment is individuel). */
 export function motorisationPresetFromSearchParams(
   searchParams: URLSearchParams,
   segment: CatalogSegment
 ): "all" | "electric" | "thermique" {
-  if (segment !== "particulier") return "all";
+  if (segment !== "individuel") return "all";
   const m = searchParams.get("motorisation")?.toLowerCase() ?? "";
   if (m === "electrique" || m === "electric") return "electric";
   if (m === "thermique" || m === "gas") return "thermique";
@@ -40,7 +40,7 @@ export function catalogDefaultHref(
   if (audience === "professionnel") {
     return catalogHref(basePath, "professionnel");
   }
-  return catalogHref(basePath, "particulier");
+  return catalogHref(basePath, "individuel");
 }
 
 export function catalogHref(
@@ -49,12 +49,12 @@ export function catalogHref(
   motorPreset: "all" | "electric" | "thermique" = "all"
 ): string {
   const path = `${basePath}/vehicles`;
-  if (segment === "particulier") {
+  if (segment === "individuel") {
     if (motorPreset === "all") {
-      return `${path}?segment=particulier`;
+      return `${path}?segment=individuel`;
     }
     const q = new URLSearchParams({
-      segment: "particulier",
+      segment: "individuel",
       motorisation: motorPreset === "electric" ? MOTOR_ELEC : MOTOR_THERM,
     });
     return `${path}?${q.toString()}`;
@@ -68,5 +68,5 @@ export function listPathForVehicleCategory(
 ): string {
   if (category === "professionnel") return catalogHref(`/${locale}`, "professionnel");
   if (category === "materiel") return catalogHref(`/${locale}`, "materiel");
-  return catalogHref(`/${locale}`, "particulier");
+  return catalogHref(`/${locale}`, "individuel");
 }

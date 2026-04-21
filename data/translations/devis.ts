@@ -2,10 +2,18 @@ export const devisTranslations = {
   fr: {
     title: "Demander un devis",
     subtitle: "Remplissez le formulaire pour recevoir une offre personnalisée.",
+    leaseMinNote:
+      "Durée minimum de location : 1 mois. Précisez modèle, options et dates. Pour la tourisme, indiquez si vous visez plutôt l’électrique ou l’hybride — un commercial vous recontacte.",
+    openQuoteSubtitle:
+      "Aucun véhicule n’est présélectionné : décrivez librement votre besoin (gamme, motorisation, durée, contraintes chantier). Un commercial vous recontacte.",
+    describeNeed: "Votre besoin en détail",
+    describeNeedPlaceholder:
+      "Ex. : utilitaire L2H2, hayon ; ou cardeuse KRENDL 575 deux turbines + durée ; ou SUV hybride rechargeable, kilométrage…",
+    backToOffers: "Retour à toutes les offres",
     profileLabel: "Type de demande",
-    profileParticulier: "Particulier",
+    profileIndividuel: "Individuel",
     profileProfessionnel: "Professionnel",
-    profileParticulierDesc: "Demande simple pour un usage personnel.",
+    profileIndividuelDesc: "Demande simple pour un usage personnel.",
     profileProfessionnelDesc: "Demande société avec informations administratives.",
     vehicleChosen: "Véhicule choisi",
     personalInfo: "Informations personnelles",
@@ -37,16 +45,25 @@ export const devisTranslations = {
     vatNumberPlaceholder: "FR12 123456789",
     businessRolePlaceholder: "Gérant, responsable flotte...",
     switchToPro: "Vous êtes un professionnel ? Passer au formulaire pro",
-    switchToParticulier: "Vous êtes un particulier ? Passer au formulaire particulier",
+    switchToIndividuel:
+      "Location pour vous-même ou votre foyer ? Passer au formulaire individuel",
     siretHint: "14 chiffres (sans espace).",
   },
   en: {
     title: "Request a quote",
     subtitle: "Fill in the form to receive a personalised offer.",
+    leaseMinNote:
+      "Minimum rental period: 1 month. Include model, options and dates. For passenger cars, say if you prefer electric or hybrid — a sales advisor will get back to you.",
+    openQuoteSubtitle:
+      "Nothing is pre-selected: describe what you need (range, powertrain, duration, site constraints). Our team will get back to you.",
+    describeNeed: "Describe your requirement",
+    describeNeedPlaceholder:
+      "e.g. L2H2 van with tail lift; or KRENDL 575 twin-turbine blower + rental period; or plug-in hybrid SUV and expected mileage…",
+    backToOffers: "Back to all offers",
     profileLabel: "Request type",
-    profileParticulier: "Individual",
+    profileIndividuel: "Individual",
     profileProfessionnel: "Business",
-    profileParticulierDesc: "Simple request for personal use.",
+    profileIndividuelDesc: "Simple request for personal use.",
     profileProfessionnelDesc: "Company request with business information.",
     vehicleChosen: "Vehicle chosen",
     personalInfo: "Personal information",
@@ -78,7 +95,7 @@ export const devisTranslations = {
     vatNumberPlaceholder: "FR12123456789",
     businessRolePlaceholder: "Manager, fleet lead...",
     switchToPro: "Are you a business? Switch to the business form",
-    switchToParticulier: "Are you an individual? Switch to the individual form",
+    switchToIndividuel: "Renting for yourself or your household? Switch to the individual form",
     siretHint: "14 digits.",
   },
 } as const;

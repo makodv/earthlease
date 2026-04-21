@@ -1,6 +1,6 @@
 import type { VehicleOption } from "./types/vehicle";
 
-/** Passenger cars – shown on /vehicles (Voitures particuliers) */
+/** Passenger cars – shown on /vehicles (segment individuel) */
 const IMG_RENAULT_SYMBIOZ = encodeURI("/symbioz pic.png");
 const IMG_RENAULT_CLIO = encodeURI("/clio.png");
 const IMG_PEUGEOT_208 = encodeURI("/208.png");
@@ -8,7 +8,7 @@ const IMG_GOLF = encodeURI("/golf.png");
 const IMG_PEUGEOT_5008 = encodeURI("/5008.png");
 const IMG_RENAULT_MEGANE = encodeURI("/megane.png");
 
-const vehiclesParticulierBase: VehicleOption[] = [
+const vehiclesIndividuelBase: VehicleOption[] = [
   {
     id: "ev1",
     slug: "renault-symbioz",
@@ -19,7 +19,7 @@ const vehiclesParticulierBase: VehicleOption[] = [
     transmission: "automatic",
     fuelType: "electric",
     category: "Compact",
-    vehicleCategory: "particulier",
+    vehicleCategory: "individuel",
     image: IMG_RENAULT_SYMBIOZ,
   },
   {
@@ -32,7 +32,7 @@ const vehiclesParticulierBase: VehicleOption[] = [
     transmission: "manual",
     fuelType: "essence",
     category: "Compact",
-    vehicleCategory: "particulier",
+    vehicleCategory: "individuel",
     image: IMG_RENAULT_CLIO,
   },
   {
@@ -45,7 +45,7 @@ const vehiclesParticulierBase: VehicleOption[] = [
     transmission: "automatic",
     fuelType: "essence",
     category: "Compact",
-    vehicleCategory: "particulier",
+    vehicleCategory: "individuel",
     image: IMG_PEUGEOT_208,
   },
   {
@@ -58,7 +58,7 @@ const vehiclesParticulierBase: VehicleOption[] = [
     transmission: "automatic",
     fuelType: "diesel",
     category: "Compact",
-    vehicleCategory: "particulier",
+    vehicleCategory: "individuel",
     image: IMG_GOLF,
   },
   {
@@ -71,7 +71,7 @@ const vehiclesParticulierBase: VehicleOption[] = [
     transmission: "automatic",
     fuelType: "diesel",
     category: "SUV",
-    vehicleCategory: "particulier",
+    vehicleCategory: "individuel",
     image: IMG_PEUGEOT_5008,
   },
   {
@@ -84,12 +84,12 @@ const vehiclesParticulierBase: VehicleOption[] = [
     transmission: "manual",
     fuelType: "diesel",
     category: "Compact",
-    vehicleCategory: "particulier",
+    vehicleCategory: "individuel",
     image: IMG_RENAULT_MEGANE,
   },
 ];
 
-export const vehiclesParticulier: VehicleOption[] = vehiclesParticulierBase.map(
+export const vehiclesIndividuel: VehicleOption[] = vehiclesIndividuelBase.map(
   (v) => ({ ...v, priceOnRequest: true })
 );
 
@@ -164,7 +164,7 @@ export const vehiclesMaterielProfessionnel: VehicleOption[] = [
 
 /** All vehicles (for search or combined views) */
 export const sampleVehicles: VehicleOption[] = [
-  ...vehiclesParticulier,
+  ...vehiclesIndividuel,
   ...vehiclesProfessionnel,
   ...vehiclesMaterielProfessionnel,
 ];

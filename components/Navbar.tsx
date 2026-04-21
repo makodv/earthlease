@@ -6,8 +6,8 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
 import { navTranslations, vehicleTranslations, type Locale } from "@/data/translations";
 import { Button } from "@/components/ui/Button";
-import { catalogHref } from "@/lib/vehiclesCatalog";
 import { useCatalogLandingFromAudience } from "@/hooks/useCatalogLandingFromAudience";
+import { offersCategoryHref } from "@/lib/offerCategory";
 
 const LOGO_SRC = "/logo.svg";
 
@@ -32,11 +32,11 @@ export function Navbar({ locale }: NavbarProps) {
   const productQuickLinks = useMemo(() => {
     const v = vehicleTranslations[locale];
     return [
-      { href: catalogHref(basePath, "particulier"), label: v.segmentParticulier },
-      { href: catalogHref(basePath, "particulier", "electric"), label: v.segmentElectric },
-      { href: catalogHref(basePath, "particulier", "thermique"), label: v.segmentThermique },
-      { href: catalogHref(basePath, "professionnel"), label: v.segmentPro },
-      { href: catalogHref(basePath, "materiel"), label: v.segmentMateriel },
+      { href: offersCategoryHref(basePath, "materiel"), label: v.segmentMateriel },
+      { href: offersCategoryHref(basePath, "utilitaires"), label: v.segmentPro },
+      { href: offersCategoryHref(basePath, "tourisme"), label: v.segmentIndividuel },
+      { href: offersCategoryHref(basePath, "deux-roues"), label: v.segmentDeuxRoues },
+      { href: `${basePath}/vehicles`, label: t.allOffersPage },
     ] as const;
   }, [basePath, locale]);
 
@@ -225,7 +225,7 @@ export function Navbar({ locale }: NavbarProps) {
             {switchLocale.toUpperCase()}
           </Link>
           <Button
-            href={productsLandingHref}
+            href={`${basePath}/contact`}
             variant="accent"
             size="sm"
             className="whitespace-nowrap rounded-full !px-5 !py-2.5"
@@ -318,7 +318,7 @@ export function Navbar({ locale }: NavbarProps) {
           </div>
 
           <Button
-            href={productsLandingHref}
+            href={`${basePath}/contact`}
             variant="accent"
             size="sm"
             className="mt-3 w-full rounded-full !py-3"

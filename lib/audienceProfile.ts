@@ -1,4 +1,4 @@
-export type AudienceProfile = "particulier" | "professionnel";
+export type AudienceProfile = "individuel" | "professionnel";
 
 const STORAGE_KEY = "earthlease-audience-v1";
 
@@ -8,7 +8,8 @@ export function readAudienceProfile(): AudienceProfile | null {
   if (typeof window === "undefined") return null;
   try {
     const raw = window.localStorage.getItem(STORAGE_KEY);
-    if (raw === "particulier" || raw === "professionnel") return raw;
+    if (raw === "professionnel") return "professionnel";
+    if (raw === "individuel" || raw === "particulier") return "individuel";
     return null;
   } catch {
     return null;

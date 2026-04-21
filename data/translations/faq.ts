@@ -6,7 +6,7 @@ export const faqTranslations = {
       {
         question: "Qu’est-ce qui est inclus dans le prix de location ?",
         answer:
-          "Notre tarif mensuel ou journalier inclut l’assurance tous risques, l’entretien courant, l’assistance routière 24h/24, le contrôle technique et les taxes. Seul le carburant reste à votre charge.",
+          "Notre tarif mensuel ou journalier inclut l’entretien courant, l’assistance routière 24h/24, le contrôle technique et les taxes. Seul le carburant reste à votre charge.",
       },
       {
         question: "Quelle est la durée minimum de location ?",
@@ -52,7 +52,7 @@ export const faqTranslations = {
       {
         question: "What is included in the rental price?",
         answer:
-          "Our monthly or daily rate includes comprehensive insurance, routine maintenance, 24/7 roadside assistance, vehicle inspection, and taxes. Only fuel is at your expense.",
+          "Our monthly or daily rate includes routine maintenance, 24/7 roadside assistance, vehicle inspection, and taxes. Only fuel is at your expense.",
       },
       {
         question: "What is the minimum rental period?",

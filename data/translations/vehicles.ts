@@ -1,16 +1,17 @@
 export const vehicleTranslations = {
   fr: {
-    segmentParticulier: "Particuliers",
+    segmentIndividuel: "Tourisme électrique & hybride",
     segmentElectric: "Électrique",
     segmentThermique: "Thermique",
     segmentPro: "Utilitaires",
     segmentMateriel: "Matériel professionnel",
+    segmentDeuxRoues: "Deux-roues",
     catalogChooseRange: "Gamme",
-    catalogResetLink: "Voir tous les véhicules particuliers",
-    catalogEyebrowParticulier: "Voitures",
-    catalogTitleParticulier: "Nos véhicules particuliers",
-    catalogSubtitleParticulier:
-      "Citadines, berlines et familiales — essence, diesel ou 100% électrique. Tarifs sur devis. Affinez avec les filtres ci-dessous.",
+    catalogResetLink: "Voir tout le tourisme électrique & hybride",
+    catalogEyebrowIndividuel: "Tourisme",
+    catalogTitleIndividuel: "Électrique & hybride",
+    catalogSubtitleIndividuel:
+      "Citadines et berlines : priorité aux motorisations électriques et hybrides. Tarifs sur devis.",
     catalogEyebrowPro: "Flotte utilitaire",
     catalogTitlePro: "Véhicules professionnels",
     catalogSubtitlePro:
@@ -60,17 +61,18 @@ export const vehicleTranslations = {
     equipmentLine: "Équipement professionnel",
   },
   en: {
-    segmentParticulier: "Passenger",
+    segmentIndividuel: "Electric & hybrid passenger",
     segmentElectric: "Electric",
     segmentThermique: "Petrol & diesel",
     segmentPro: "Commercial vans",
     segmentMateriel: "Professional equipment",
+    segmentDeuxRoues: "Two-wheelers",
     catalogChooseRange: "Range",
-    catalogResetLink: "View all passenger vehicles",
-    catalogEyebrowParticulier: "Cars",
-    catalogTitleParticulier: "Passenger vehicles",
-    catalogSubtitleParticulier:
-      "City cars, sedans and family models — petrol, diesel or fully electric. Pricing on quotation. Refine with the filters below.",
+    catalogResetLink: "View all electric & hybrid passenger offers",
+    catalogEyebrowIndividuel: "Passenger",
+    catalogTitleIndividuel: "Electric & hybrid",
+    catalogSubtitleIndividuel:
+      "City cars and saloons: we prioritise electric and hybrid powertrains. Pricing on quotation.",
     catalogEyebrowPro: "Commercial fleet",
     catalogTitlePro: "Professional vehicles",
     catalogSubtitlePro:

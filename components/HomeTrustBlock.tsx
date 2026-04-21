@@ -12,7 +12,6 @@ export function HomeTrustBlock({ locale, imageSrc }: HomeTrustBlockProps) {
   const t = homeTranslations[locale];
 
   const benefits = [
-    { title: t.trustAllIncluded, desc: t.trustAllIncludedDesc },
     { title: t.trustFlexible, desc: t.trustFlexibleDesc },
     { title: t.trustEco, desc: t.trustEcoDesc },
     { title: t.trustPro, desc: t.trustProDesc },

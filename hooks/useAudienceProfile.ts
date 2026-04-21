@@ -12,7 +12,7 @@ function getServerSnapshot(): AudienceProfile | null {
 }
 
 /**
- * Client-side audience (particulier vs pro fleet). Null until first visit choice or read fails.
+ * Client-side audience (individuel vs pro fleet). Null until first visit choice or read fails.
  */
 export function useAudienceProfile(): AudienceProfile | null {
   return useSyncExternalStore(

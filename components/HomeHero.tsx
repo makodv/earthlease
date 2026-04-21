@@ -4,9 +4,8 @@ import Image from "next/image";
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { homeTranslations } from "@/data/translations/home";
-import { navTranslations, vehicleTranslations, type Locale } from "@/data/translations";
+import { navTranslations, type Locale } from "@/data/translations";
 import { Button } from "@/components/ui/Button";
-import { useCatalogLandingFromAudience } from "@/hooks/useCatalogLandingFromAudience";
 
 interface HomeHeroProps {
   locale: Locale;
@@ -17,8 +16,6 @@ interface HomeHeroProps {
 export function HomeHero({ locale, heroImageSrc }: HomeHeroProps) {
   const t = homeTranslations[locale];
   const nav = navTranslations[locale];
-  const vT = vehicleTranslations[locale];
-  const { catalogLandingHref } = useCatalogLandingFromAudience(`/${locale}`);
   const sectionRef = useRef<HTMLElement>(null);
   const badgeRef = useRef<HTMLDivElement>(null);
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -84,7 +81,7 @@ export function HomeHero({ locale, heroImageSrc }: HomeHeroProps) {
           className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4 lg:mt-9 lg:items-start"
         >
           <Button
-            href={catalogLandingHref}
+            href={`/${locale}/contact`}
             variant="accent"
             size="md"
             className="min-w-[180px] rounded-full !px-6 !py-2.5 text-sm sm:!py-3"
@@ -92,12 +89,12 @@ export function HomeHero({ locale, heroImageSrc }: HomeHeroProps) {
             {nav.seeVehicles} →
           </Button>
           <Button
-            href={`/${locale}/contact`}
+            href={`/${locale}/#offres-pro`}
             variant="secondary"
             size="md"
             className="min-w-[180px] rounded-full border-[var(--hero-border)] !bg-none !bg-transparent !px-6 !py-2.5 text-sm !text-[var(--hero-text)] hover:!bg-white/10 hover:!border-white/25 sm:!py-3"
           >
-            {vT.contactUs}
+            {nav.heroSecondaryOffers}
           </Button>
         </div>
 

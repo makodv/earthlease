@@ -8,4 +8,6 @@ export { devisTranslations } from "./devis";
 export { faqTranslations } from "./faq";
 export { howItWorksTranslations } from "./howItWorks";
 export { audienceModalTranslations } from "./audienceModal";
+export { confidentialiteRgpdTranslations } from "./confidentialiteRgpd";
+export { proShowcaseTranslations } from "./proShowcase";
 export type { Locale } from "./nav";

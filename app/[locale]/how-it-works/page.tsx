@@ -88,10 +88,6 @@ export default async function HowItWorksPage({
               <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--accent-green)]/15 text-sm font-medium text-[var(--accent-green)]">✓</span>
               {t.included4}
             </li>
-            <li className="flex items-center gap-3 text-[var(--text-secondary)]">
-              <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-[var(--accent-green)]/15 text-sm font-medium text-[var(--accent-green)]">✓</span>
-              {t.included5}
-            </li>
           </ul>
         </div>
 
@@ -125,7 +121,7 @@ export default async function HowItWorksPage({
 
         {/* CTAs */}
         <div className="mt-14 flex flex-col items-center justify-center gap-4 sm:flex-row">
-          <Button href={`/${locale}/vehicles`} variant="accent" size="lg">
+          <Button href={`/${locale}/#offres-pro`} variant="accent" size="lg">
             {t.ctaVehicles}
           </Button>
           <Button href={`/${locale}/contact`} variant="secondary" size="lg">

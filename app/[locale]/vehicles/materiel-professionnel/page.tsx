@@ -2,16 +2,16 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useEffect } from "react";
-import { catalogHref } from "@/lib/vehiclesCatalog";
+import { offersCategoryHref } from "@/lib/offerCategory";
 
-/** Legacy URL — static export cannot rely on server redirects. */
+/** Legacy URL — redirect to dedicated matériel category page. */
 export default function LegacyMaterielRedirect() {
   const params = useParams();
   const router = useRouter();
   const locale = typeof params.locale === "string" ? params.locale : "fr";
 
   useEffect(() => {
-    router.replace(catalogHref(`/${locale}`, "materiel"));
+    router.replace(offersCategoryHref(`/${locale}`, "materiel"));
   }, [locale, router]);
 
   return (

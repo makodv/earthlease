@@ -6,38 +6,65 @@ import type { VehicleOption } from "@/data/types/vehicle";
 import { devisTranslations, vehicleTranslations, type Locale } from "@/data/translations";
 import { inputBase } from "@/components/ui/Card";
 import { useAudienceProfile } from "@/hooks/useAudienceProfile";
+import type { OfferCategorySlug } from "@/lib/offerCategory";
 
 interface QuoteRequestFormProps {
-  vehicle: VehicleOption;
+  /** When `null`, the form is “open” (no pre-selected vehicle). */
+  vehicle: VehicleOption | null;
   locale: Locale;
   vehicleDetailPath: string;
+  /** Optional theme from `/demande-devis?category=` */
+  quoteCategory?: OfferCategorySlug | null;
 }
 
-type QuoteProfile = "particulier" | "professionnel";
+type QuoteProfile = "individuel" | "professionnel";
+
+const OFFER_CATEGORY_LABEL: Record<Locale, Record<OfferCategorySlug, string>> = {
+  fr: {
+    materiel: "Thématique : matériel & isolation",
+    utilitaires: "Thématique : utilitaires",
+    tourisme: "Thématique : tourisme électrique & hybride",
+    "deux-roues": "Thématique : deux-roues",
+  },
+  en: {
+    materiel: "Topic: equipment & insulation",
+    utilitaires: "Topic: commercial vans",
+    tourisme: "Topic: electric & hybrid passenger cars",
+    "deux-roues": "Topic: two-wheelers",
+  },
+};
 
 export function QuoteRequestForm({
   vehicle,
   locale,
   vehicleDetailPath,
+  quoteCategory = null,
 }: QuoteRequestFormProps) {
   const t = devisTranslations[locale];
   const vT = vehicleTranslations[locale];
   const audience = useAudienceProfile();
+  const isOpenQuote = vehicle === null;
+
   const transmissionLabel =
-    vehicle.transmission === "automatic" ? vT.automatic : vT.manual;
+    vehicle && (vehicle.transmission === "automatic" ? vT.automatic : vT.manual);
   const fuelLabel =
-    vehicle.fuelType === "diesel"
+    vehicle &&
+    (vehicle.fuelType === "diesel"
       ? vT.diesel
       : vehicle.fuelType === "electric"
         ? vT.electric
-        : vT.essence;
+        : vT.essence);
 
-  const showNumericPrice = !vehicle.priceOnRequest && vehicle.pricePerMonth > 0;
+  const showNumericPrice =
+    vehicle && !vehicle.priceOnRequest && vehicle.pricePerMonth > 0;
 
   const initialProfile: QuoteProfile = useMemo(() => {
-    if (vehicle.vehicleCategory !== "particulier") return "professionnel";
-    return audience === "professionnel" ? "professionnel" : "particulier";
-  }, [vehicle.vehicleCategory, audience]);
+    if (!vehicle) {
+      return audience === "professionnel" ? "professionnel" : "individuel";
+    }
+    if (vehicle.vehicleCategory !== "individuel") return "professionnel";
+    return audience === "professionnel" ? "professionnel" : "individuel";
+  }, [vehicle, audience]);
 
   const [submitted, setSubmitted] = useState(false);
   const [hasManualProfileChoice, setHasManualProfileChoice] = useState(false);
@@ -52,6 +79,7 @@ export function QuoteRequestForm({
     businessRole: "",
     startDate: "",
     endDate: "",
+    needDescription: "",
   });
 
   const isPro = profile === "professionnel";
@@ -64,9 +92,17 @@ export function QuoteRequestForm({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     // TODO: send to API
-    console.log("Quote request", { vehicle: vehicle.slug, profile, ...form });
+    console.log("Quote request", {
+      mode: isOpenQuote ? "open" : "vehicle",
+      vehicle: vehicle?.slug ?? null,
+      quoteCategory,
+      profile,
+      ...form,
+    });
     setSubmitted(true);
   };
+
+  const successLabel = isOpenQuote ? t.backToOffers : t.backToVehicle;
 
   if (submitted) {
     return (
@@ -79,53 +115,54 @@ export function QuoteRequestForm({
           href={vehicleDetailPath}
           className="mt-6 inline-block text-sm font-medium text-[var(--navy-primary)] hover:underline"
         >
-          {t.backToVehicle}
+          {successLabel}
         </Link>
       </div>
     );
   }
 
-  return (
-    <form onSubmit={handleSubmit} className="space-y-8">
-      <section className="rounded-xl border border-white/20 bg-white/70 p-6 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
-        <p className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
-          {t.profileLabel}
-        </p>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <button
-            type="button"
-            onClick={() => {
-              setHasManualProfileChoice(true);
-              setProfile("particulier");
-            }}
-            className={`rounded-xl border p-4 text-left transition ${
-              !isPro
-                ? "border-[var(--navy-primary)] bg-[var(--navy-primary)]/5"
-                : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--navy-primary)]/25"
-            }`}
-          >
-            <p className="font-semibold text-[var(--text-primary)]">{t.profileParticulier}</p>
-            <p className="mt-1 text-sm text-[var(--text-secondary)]">{t.profileParticulierDesc}</p>
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setHasManualProfileChoice(true);
-              setProfile("professionnel");
-            }}
-            className={`rounded-xl border p-4 text-left transition ${
-              isPro
-                ? "border-[var(--navy-primary)] bg-[var(--navy-primary)]/5"
-                : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--navy-primary)]/25"
-            }`}
-          >
-            <p className="font-semibold text-[var(--text-primary)]">{t.profileProfessionnel}</p>
-            <p className="mt-1 text-sm text-[var(--text-secondary)]">{t.profileProfessionnelDesc}</p>
-          </button>
-        </div>
-      </section>
+  const profileSection = (
+    <section className="rounded-xl border border-white/20 bg-white/70 p-6 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+      <p className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
+        {t.profileLabel}
+      </p>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <button
+          type="button"
+          onClick={() => {
+            setHasManualProfileChoice(true);
+            setProfile("individuel");
+          }}
+          className={`rounded-xl border p-4 text-left transition ${
+            !isPro
+              ? "border-[var(--navy-primary)] bg-[var(--navy-primary)]/5"
+              : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--navy-primary)]/25"
+          }`}
+        >
+          <p className="font-semibold text-[var(--text-primary)]">{t.profileIndividuel}</p>
+          <p className="mt-1 text-sm text-[var(--text-secondary)]">{t.profileIndividuelDesc}</p>
+        </button>
+        <button
+          type="button"
+          onClick={() => {
+            setHasManualProfileChoice(true);
+            setProfile("professionnel");
+          }}
+          className={`rounded-xl border p-4 text-left transition ${
+            isPro
+              ? "border-[var(--navy-primary)] bg-[var(--navy-primary)]/5"
+              : "border-[var(--border)] bg-[var(--surface)] hover:border-[var(--navy-primary)]/25"
+          }`}
+        >
+          <p className="font-semibold text-[var(--text-primary)]">{t.profileProfessionnel}</p>
+          <p className="mt-1 text-sm text-[var(--text-secondary)]">{t.profileProfessionnelDesc}</p>
+        </button>
+      </div>
+    </section>
+  );
 
-      {/* Vehicle summary */}
+  const vehicleSection =
+    vehicle ? (
       <section className="rounded-xl border border-white/20 bg-white/70 p-6 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
         <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
           {t.vehicleChosen}
@@ -152,199 +189,243 @@ export function QuoteRequestForm({
           </p>
         </div>
       </section>
+    ) : null;
 
-      {/* Personal info */}
-      <section className="space-y-4">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
-          {t.personalInfo}
-        </h3>
-        <div className="grid gap-4 sm:grid-cols-1">
-          <div>
-            <label
-              htmlFor="quote-name"
-              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
-            >
-              {t.fullName}
-            </label>
-            <input
-              id="quote-name"
-              type="text"
-              required
-              value={form.fullName}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, fullName: e.target.value }))
-              }
-              className={inputBase}
-              placeholder={t.fullNamePlaceholder}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="quote-email"
-              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
-            >
-              {t.email}
-            </label>
-            <input
-              id="quote-email"
-              type="email"
-              required
-              value={form.email}
-              onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
-              className={inputBase}
-              placeholder={t.emailPlaceholder}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="quote-phone"
-              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
-            >
-              {t.phone}
-            </label>
-            <input
-              id="quote-phone"
-              type="tel"
-              value={form.phone}
-              onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
-              className={inputBase}
-              placeholder={t.phonePlaceholder}
-            />
-          </div>
+  const needSection = isOpenQuote ? (
+    <section className="space-y-3 rounded-xl border border-white/20 bg-white/70 p-6 shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+      {quoteCategory ? (
+        <p className="inline-flex rounded-full border border-[var(--accent-green)]/35 bg-[var(--accent-green)]/10 px-3 py-1 text-xs font-semibold text-[var(--navy-primary)]">
+          {OFFER_CATEGORY_LABEL[locale][quoteCategory]}
+        </p>
+      ) : null}
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
+        {t.describeNeed}
+      </h3>
+      <textarea
+        id="quote-need"
+        required
+        rows={7}
+        value={form.needDescription}
+        onChange={(e) => setForm((f) => ({ ...f, needDescription: e.target.value }))}
+        className={`${inputBase} min-h-[160px] resize-y`}
+        placeholder={t.describeNeedPlaceholder}
+      />
+    </section>
+  ) : null;
+
+  const personalSection = (
+    <section className="space-y-4">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
+        {t.personalInfo}
+      </h3>
+      <div className="grid gap-4 sm:grid-cols-1">
+        <div>
+          <label
+            htmlFor="quote-name"
+            className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
+          >
+            {t.fullName}
+          </label>
+          <input
+            id="quote-name"
+            type="text"
+            required
+            value={form.fullName}
+            onChange={(e) => setForm((f) => ({ ...f, fullName: e.target.value }))}
+            className={inputBase}
+            placeholder={t.fullNamePlaceholder}
+          />
         </div>
-      </section>
+        <div>
+          <label
+            htmlFor="quote-email"
+            className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
+          >
+            {t.email}
+          </label>
+          <input
+            id="quote-email"
+            type="email"
+            required
+            value={form.email}
+            onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
+            className={inputBase}
+            placeholder={t.emailPlaceholder}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="quote-phone"
+            className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
+          >
+            {t.phone}
+          </label>
+          <input
+            id="quote-phone"
+            type="tel"
+            value={form.phone}
+            onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
+            className={inputBase}
+            placeholder={t.phonePlaceholder}
+          />
+        </div>
+      </div>
+    </section>
+  );
 
-      {isPro ? (
-        <section className="space-y-4">
-          <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
-            {t.professionalInfo}
-          </h3>
-          <div className="grid gap-4 sm:grid-cols-2">
-            <div className="sm:col-span-2">
-              <label
-                htmlFor="quote-company-name"
-                className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
-              >
-                {t.companyName}
-              </label>
-              <input
-                id="quote-company-name"
-                type="text"
-                required={isPro}
-                value={form.companyName}
-                onChange={(e) => setForm((f) => ({ ...f, companyName: e.target.value }))}
-                className={inputBase}
-                placeholder={t.companyNamePlaceholder}
-              />
-            </div>
-            <div>
-              <label
-                htmlFor="quote-siret"
-                className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
-              >
-                {t.siret}
-              </label>
-              <input
-                id="quote-siret"
-                type="text"
-                required={isPro}
-                pattern="[0-9]{14}"
-                maxLength={14}
-                value={form.siret}
-                onChange={(e) => {
-                  const digitsOnly = e.target.value.replace(/\D/g, "");
-                  setForm((f) => ({ ...f, siret: digitsOnly.slice(0, 14) }));
-                }}
-                className={inputBase}
-                placeholder={t.siretPlaceholder}
-              />
-              <p className="mt-1 text-xs text-[var(--text-muted)]">{t.siretHint}</p>
-            </div>
-            <div>
-              <label
-                htmlFor="quote-vat-number"
-                className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
-              >
-                {t.vatNumber}
-              </label>
-              <input
-                id="quote-vat-number"
-                type="text"
-                value={form.vatNumber}
-                onChange={(e) => setForm((f) => ({ ...f, vatNumber: e.target.value }))}
-                className={inputBase}
-                placeholder={t.vatNumberPlaceholder}
-              />
-            </div>
-            <div className="sm:col-span-2">
-              <label
-                htmlFor="quote-business-role"
-                className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
-              >
-                {t.businessRole}
-              </label>
-              <input
-                id="quote-business-role"
-                type="text"
-                required={isPro}
-                value={form.businessRole}
-                onChange={(e) => setForm((f) => ({ ...f, businessRole: e.target.value }))}
-                className={inputBase}
-                placeholder={t.businessRolePlaceholder}
-              />
-            </div>
-          </div>
-        </section>
+  const proSection = isPro ? (
+    <section className="space-y-4">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
+        {t.professionalInfo}
+      </h3>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div className="sm:col-span-2">
+          <label
+            htmlFor="quote-company-name"
+            className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
+          >
+            {t.companyName}
+          </label>
+          <input
+            id="quote-company-name"
+            type="text"
+            required={isPro}
+            value={form.companyName}
+            onChange={(e) => setForm((f) => ({ ...f, companyName: e.target.value }))}
+            className={inputBase}
+            placeholder={t.companyNamePlaceholder}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="quote-siret"
+            className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
+          >
+            {t.siret}
+          </label>
+          <input
+            id="quote-siret"
+            type="text"
+            required={isPro}
+            pattern="[0-9]{14}"
+            maxLength={14}
+            value={form.siret}
+            onChange={(e) => {
+              const digitsOnly = e.target.value.replace(/\D/g, "");
+              setForm((f) => ({ ...f, siret: digitsOnly.slice(0, 14) }));
+            }}
+            className={inputBase}
+            placeholder={t.siretPlaceholder}
+          />
+          <p className="mt-1 text-xs text-[var(--text-muted)]">{t.siretHint}</p>
+        </div>
+        <div>
+          <label
+            htmlFor="quote-vat-number"
+            className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
+          >
+            {t.vatNumber}
+          </label>
+          <input
+            id="quote-vat-number"
+            type="text"
+            value={form.vatNumber}
+            onChange={(e) => setForm((f) => ({ ...f, vatNumber: e.target.value }))}
+            className={inputBase}
+            placeholder={t.vatNumberPlaceholder}
+          />
+        </div>
+        <div className="sm:col-span-2">
+          <label
+            htmlFor="quote-business-role"
+            className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
+          >
+            {t.businessRole}
+          </label>
+          <input
+            id="quote-business-role"
+            type="text"
+            required={isPro}
+            value={form.businessRole}
+            onChange={(e) => setForm((f) => ({ ...f, businessRole: e.target.value }))}
+            className={inputBase}
+            placeholder={t.businessRolePlaceholder}
+          />
+        </div>
+      </div>
+    </section>
+  ) : null;
+
+  const rentalSection = (
+    <section className="space-y-4">
+      <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
+        {t.rentalPeriod}
+      </h3>
+      <div className="grid gap-4 sm:grid-cols-2">
+        <div>
+          <label
+            htmlFor="quote-start"
+            className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
+          >
+            {t.startDate}
+          </label>
+          <input
+            id="quote-start"
+            type="date"
+            required
+            value={form.startDate}
+            onChange={(e) => setForm((f) => ({ ...f, startDate: e.target.value }))}
+            className={inputBase}
+          />
+        </div>
+        <div>
+          <label
+            htmlFor="quote-end"
+            className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
+          >
+            {t.endDate}
+          </label>
+          <input
+            id="quote-end"
+            type="date"
+            required
+            value={form.endDate}
+            onChange={(e) => setForm((f) => ({ ...f, endDate: e.target.value }))}
+            className={inputBase}
+          />
+        </div>
+      </div>
+    </section>
+  );
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-8">
+      <p className="rounded-xl border border-[var(--navy-primary)]/15 bg-[var(--navy-primary)]/5 px-4 py-3 text-sm leading-relaxed text-[var(--text-secondary)]">
+        {t.leaseMinNote}
+      </p>
+      {isOpenQuote ? (
+        <p className="text-sm leading-relaxed text-[var(--text-secondary)]">{t.openQuoteSubtitle}</p>
       ) : null}
 
-      {/* Rental period */}
-      <section className="space-y-4">
-        <h3 className="text-xs font-semibold uppercase tracking-wider text-[var(--navy-primary)]">
-          {t.rentalPeriod}
-        </h3>
-        <div className="grid gap-4 sm:grid-cols-2">
-          <div>
-            <label
-              htmlFor="quote-start"
-              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
-            >
-              {t.startDate}
-            </label>
-            <input
-              id="quote-start"
-              type="date"
-              required
-              value={form.startDate}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, startDate: e.target.value }))
-              }
-              className={inputBase}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="quote-end"
-              className="mb-1.5 block text-sm font-medium text-[var(--text-primary)]"
-            >
-              {t.endDate}
-            </label>
-            <input
-              id="quote-end"
-              type="date"
-              required
-              value={form.endDate}
-              onChange={(e) =>
-                setForm((f) => ({ ...f, endDate: e.target.value }))
-              }
-              className={inputBase}
-            />
-          </div>
-        </div>
-      </section>
+      {isOpenQuote ? (
+        <>
+          {needSection}
+          {profileSection}
+        </>
+      ) : (
+        <>
+          {profileSection}
+          {vehicleSection}
+        </>
+      )}
+
+      {personalSection}
+      {proSection}
+      {rentalSection}
 
       <button
         type="submit"
-        className="w-full rounded-xl bg-[var(--navy-primary)] px-6 py-4 font-semibold text-white transition-colors hover:bg-[var(--navy-primary-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--navy-primary)] focus:ring-offset-2 sm:w-auto sm:px-10"
+        className="w-full rounded-xl bg-[var(--navy-primary)] px-8 py-4 text-base font-bold text-white shadow-[0_10px_28px_rgba(6,46,91,0.28)] transition-colors hover:bg-[var(--navy-primary-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--navy-primary)] focus:ring-offset-2 sm:w-auto sm:min-w-[220px] sm:px-12"
       >
         {t.submit}
       </button>
@@ -353,13 +434,11 @@ export function QuoteRequestForm({
         type="button"
         onClick={() => {
           setHasManualProfileChoice(true);
-          setProfile((current) =>
-            current === "professionnel" ? "particulier" : "professionnel"
-          );
+          setProfile((current) => (current === "professionnel" ? "individuel" : "professionnel"));
         }}
         className="block text-sm font-medium text-[var(--navy-primary)] underline-offset-2 hover:underline"
       >
-        {isPro ? t.switchToParticulier : t.switchToPro}
+        {isPro ? t.switchToIndividuel : t.switchToPro}
       </button>
     </form>
   );
