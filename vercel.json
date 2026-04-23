@@ -1,0 +1,14 @@
+{
+  "redirects": [
+    {
+      "source": "/",
+      "destination": "/fr",
+      "permanent": false
+    },
+    {
+      "source": "/:path((?!fr$|fr/|en$|en/|_next/|_vercel/|api/|.*\\..+).*)",
+      "destination": "/fr/:path",
+      "permanent": false
+    }
+  ]
+}
