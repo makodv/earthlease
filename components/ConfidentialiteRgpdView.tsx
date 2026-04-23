@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { confidentialiteRgpdTranslations, type Locale } from "@/data/translations";
+import { LegalPublisherCard } from "@/components/LegalPublisherCard";
 
 interface ConfidentialiteRgpdViewProps {
   locale: Locale;
@@ -50,6 +51,11 @@ export function ConfidentialiteRgpdView({ locale }: ConfidentialiteRgpdViewProps
                 <p key={i}>{p}</p>
               ))}
             </div>
+            {section.id === "responsable-traitement" ? (
+              <div className="mt-8">
+                <LegalPublisherCard locale={locale} compact />
+              </div>
+            ) : null}
           </section>
         ))}
       </div>

@@ -9,5 +9,6 @@ export { faqTranslations } from "./faq";
 export { howItWorksTranslations } from "./howItWorks";
 export { audienceModalTranslations } from "./audienceModal";
 export { confidentialiteRgpdTranslations } from "./confidentialiteRgpd";
+export { conditionsUtilisationTranslations } from "./conditionsUtilisation";
 export { proShowcaseTranslations } from "./proShowcase";
 export type { Locale } from "./nav";

@@ -3,8 +3,11 @@ import { Suspense } from "react";
 import { notFound } from "next/navigation";
 import { devisTranslations, type Locale } from "@/data/translations";
 import { isValidLocale } from "@/lib/i18n";
+import { absoluteLocaleUrl, hreflangAlternates } from "@/lib/siteOrigin";
 import { DemandeDevisClient } from "./DemandeDevisClient";
 import { DemandeDevisFallback } from "./DemandeDevisFallback";
+
+const pathAfterLocale = "/demande-devis";
 
 export async function generateMetadata({
   params,
@@ -13,10 +16,18 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
-  const t = devisTranslations[locale as Locale];
+  const loc = locale as Locale;
+  const t = devisTranslations[loc];
+  const title = `${t.title} | EarthLease`;
   return {
-    title: `${t.title} | EarthLease`,
+    title,
     description: t.openQuoteSubtitle,
+    alternates: hreflangAlternates(loc, pathAfterLocale),
+    openGraph: {
+      title,
+      description: t.openQuoteSubtitle,
+      url: absoluteLocaleUrl(loc, pathAfterLocale),
+    },
   };
 }
 

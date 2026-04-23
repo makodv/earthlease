@@ -9,6 +9,7 @@ export default function LegacyProfessionnelRedirect() {
   const params = useParams();
   const router = useRouter();
   const locale = typeof params.locale === "string" ? params.locale : "fr";
+  const message = locale === "en" ? "Redirecting…" : "Redirection en cours…";
 
   useEffect(() => {
     router.replace(catalogHref(`/${locale}`, "professionnel"));
@@ -16,7 +17,7 @@ export default function LegacyProfessionnelRedirect() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-24 text-center text-sm text-[var(--text-muted)]">
-      Redirection…
+      {message}
     </div>
   );
 }

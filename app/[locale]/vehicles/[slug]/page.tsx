@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { getVehicleBySlug, getAllVehicleSlugs } from "@/data/vehicles";
@@ -5,6 +6,54 @@ import { isValidLocale, locales } from "@/lib/i18n";
 import { listPathForVehicleCategory } from "@/lib/vehiclesCatalog";
 import { vehicleTranslations, type Locale } from "@/data/translations";
 import { Button } from "@/components/ui/Button";
+import { SITE_ORIGIN, hreflangAlternates } from "@/lib/siteOrigin";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string; slug: string }>;
+}): Promise<Metadata> {
+  const { locale, slug } = await params;
+  if (!isValidLocale(locale)) return {};
+  const vehicle = getVehicleBySlug(slug);
+  if (!vehicle) return {};
+
+  const loc = locale as Locale;
+  const isFr = locale === "fr";
+  const path = `/vehicles/${slug}`;
+  const url = `${SITE_ORIGIN}/${locale}${path}`;
+  const categoryLabel = vehicle.category ?? "";
+
+  const title = isFr
+    ? `Location ${vehicle.brand} ${vehicle.name} — ${categoryLabel} | EarthLease`
+    : `Rent ${vehicle.brand} ${vehicle.name} — ${categoryLabel} | EarthLease`;
+
+  const description = isFr
+    ? `Louez le ${vehicle.brand} ${vehicle.name} (${categoryLabel}) à partir d'1 mois. ${vehicle.priceOnRequest ? "Tarif sur devis." : `À partir de ${vehicle.pricePerMonth}€/mois.`} Devis rapide chez EarthLease.`
+    : `Rent the ${vehicle.brand} ${vehicle.name} (${categoryLabel}) from 1 month. ${vehicle.priceOnRequest ? "Quote-based pricing." : `From ${vehicle.pricePerMonth}€/month.`} Fast quote at EarthLease.`;
+
+  const imagePath = vehicle.image ?? "/og-image.jpg";
+  const ogImageUrl = new URL(imagePath, SITE_ORIGIN).href;
+
+  return {
+    title,
+    description,
+    alternates: hreflangAlternates(loc, path),
+    openGraph: {
+      title,
+      description,
+      url,
+      images: [
+        {
+          url: ogImageUrl,
+          width: 1200,
+          height: 630,
+          alt: vehicle.image ? `${vehicle.brand} ${vehicle.name}` : "EarthLease",
+        },
+      ],
+    },
+  };
+}
 
 export async function generateStaticParams() {
   const slugs = getAllVehicleSlugs();

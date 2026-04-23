@@ -7,9 +7,9 @@ export const contactTranslations = {
     email: "Email",
     phone: "Téléphone",
     address: "Adresse",
-    addressValue: "Paris, France",
+    addressValue: "3 boulevard Georges Méliès, 94350 Villiers-sur-Marne, France",
     emailValue: "contact@earthlease.fr",
-    phoneValue: "01 76 43 19 05",
+    phoneValue: "09 72 12 32 53",
     quickResponse: "Réponse Rapide",
     quickResponseDesc: "Réponse sous 24h",
     quickResponseDetail:
@@ -27,6 +27,14 @@ export const contactTranslations = {
     submit: "Envoyer",
     datePlaceholder: "Choisir une date",
     timePlaceholder: "Choisir une heure",
+    submitting: "Envoi en cours…",
+    successTitle: "Message envoyé",
+    successMessage:
+      "Nous avons bien reçu votre demande de rendez-vous. Nous vous recontacterons rapidement.",
+    submitError:
+      "L’envoi a échoué. Vérifiez les champs ou réessayez dans quelques instants.",
+    configMissing:
+      "L’envoi des formulaires n’est pas configuré sur ce site (variable d’environnement Formspree).",
   },
   en: {
     title: "Contact us",
@@ -36,9 +44,9 @@ export const contactTranslations = {
     email: "Email",
     phone: "Phone",
     address: "Address",
-    addressValue: "Paris, France",
+    addressValue: "3 boulevard Georges Méliès, 94350 Villiers-sur-Marne, France",
     emailValue: "contact@earthlease.fr",
-    phoneValue: "+33 1 76 43 19 05",
+    phoneValue: "+33 9 72 12 32 53",
     quickResponse: "Quick response",
     quickResponseDesc: "Response within 24h",
     quickResponseDetail:
@@ -56,5 +64,11 @@ export const contactTranslations = {
     submit: "Submit",
     datePlaceholder: "Choose a date",
     timePlaceholder: "Choose a time",
+    submitting: "Sending…",
+    successTitle: "Message sent",
+    successMessage:
+      "We have received your appointment request and will get back to you shortly.",
+    submitError: "Something went wrong. Please check the fields and try again.",
+    configMissing: "Form delivery is not configured (Formspree environment variable).",
   },
 } as const;

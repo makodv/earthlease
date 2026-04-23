@@ -1,28 +1,12 @@
+import Image from "next/image";
 import { homeTranslations, type Locale } from "@/data/translations";
 import { Button } from "@/components/ui/Button";
 
 const EDOCEO_ACADEMY_URL = "https://edoceo-academy.com";
+const EDOCEO_LOGO_SRC = "/image.png";
 
 interface HomePartnerTrainingProps {
   locale: Locale;
-}
-
-function IconGraduation({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth={1.5}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden
-    >
-      <path d="M22 10v6M2 10l10-5 10 5-10 5L2 10z" />
-      <path d="M6 12v5c0 1 2 3 6 3s6-2 6-3v-5" />
-    </svg>
-  );
 }
 
 function IconExternal({ className }: { className?: string }) {
@@ -40,6 +24,7 @@ function IconExternal({ className }: { className?: string }) {
 
 export function HomePartnerTraining({ locale }: HomePartnerTrainingProps) {
   const t = homeTranslations[locale];
+  const logoAlt = locale === "fr" ? "Logo Edoceo" : "Edoceo logo";
 
   return (
     <section
@@ -57,7 +42,7 @@ export function HomePartnerTraining({ locale }: HomePartnerTrainingProps) {
             aria-hidden
           />
 
-          <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-center lg:gap-12">
+          <div className="relative grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(200px,280px)] lg:items-center lg:gap-12">
             <div>
               <p className="text-xs font-semibold uppercase tracking-widest text-[var(--accent-green)]">
                 {t.partnerEyebrow}
@@ -90,16 +75,16 @@ export function HomePartnerTraining({ locale }: HomePartnerTrainingProps) {
               </div>
             </div>
 
-            <div className="flex flex-col items-center justify-center gap-4 rounded-2xl border border-[var(--border)] bg-[var(--muted)]/80 px-6 py-8 text-center shadow-[var(--shadow-ambient)] lg:py-10">
-              <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-[var(--navy-primary)]/10 text-[var(--navy-primary)]">
-                <IconGraduation className="h-8 w-8" />
+            <div className="flex min-h-[200px] items-center justify-center rounded-2xl border border-[var(--border)] bg-[var(--muted)]/80 px-6 py-10 shadow-[var(--shadow-ambient)] sm:min-h-[220px] lg:min-h-[260px] lg:px-8 lg:py-12">
+              <div className="relative h-36 w-full max-w-[240px] sm:h-40 sm:max-w-[260px]">
+                <Image
+                  src={EDOCEO_LOGO_SRC}
+                  alt={logoAlt}
+                  fill
+                  className="object-contain object-center"
+                  sizes="(max-width: 1024px) 240px, 280px"
+                />
               </div>
-              <p className="text-sm font-semibold text-[var(--text-primary)]">Edoceo</p>
-              <p className="text-xs leading-relaxed text-[var(--text-muted)]">
-                {locale === "fr"
-                  ? "Formations professionnelles certifiées Qualiopi."
-                  : "Qualiopi-certified professional training."}
-              </p>
             </div>
           </div>
         </div>

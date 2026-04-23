@@ -31,6 +31,11 @@ export const devisTranslations = {
     startDatePlaceholder: "JJ/MM/AAAA",
     endDatePlaceholder: "JJ/MM/AAAA",
     submit: "Envoyer ma demande",
+    submitting: "Envoi en cours…",
+    submitError:
+      "L’envoi a échoué. Vérifiez les champs ou réessayez dans quelques instants.",
+    configMissing:
+      "L’envoi des formulaires n’est pas configuré sur ce site (variable d’environnement Formspree).",
     backToVehicle: "Retour au véhicule",
     perMonth: "/mois",
     seats: "places",
@@ -81,6 +86,9 @@ export const devisTranslations = {
     startDatePlaceholder: "MM/DD/YYYY",
     endDatePlaceholder: "MM/DD/YYYY",
     submit: "Submit my request",
+    submitting: "Sending…",
+    submitError: "Something went wrong. Please check the fields and try again.",
+    configMissing: "Form delivery is not configured (Formspree environment variable).",
     backToVehicle: "Back to vehicle",
     perMonth: "/month",
     seats: "seats",
@@ -88,7 +96,7 @@ export const devisTranslations = {
     successMessage:
       "We have received your request. We will get back to you within 24 hours.",
     fullNamePlaceholder: "Jane Smith",
-    emailPlaceholder: "jane@example.com",
+    emailPlaceholder: "fleet.manager@yourcompany.com",
     phonePlaceholder: "+44 7700 900123",
     companyNamePlaceholder: "Example Ltd",
     siretPlaceholder: "12345678900012",

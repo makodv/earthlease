@@ -225,7 +225,7 @@ export function Navbar({ locale }: NavbarProps) {
             {switchLocale.toUpperCase()}
           </Link>
           <Button
-            href={`${basePath}/contact`}
+            href={`${basePath}/demande-devis`}
             variant="accent"
             size="sm"
             className="whitespace-nowrap rounded-full !px-5 !py-2.5"
@@ -318,7 +318,7 @@ export function Navbar({ locale }: NavbarProps) {
           </div>
 
           <Button
-            href={`${basePath}/contact`}
+            href={`${basePath}/demande-devis`}
             variant="accent"
             size="sm"
             className="mt-3 w-full rounded-full !py-3"

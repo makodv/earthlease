@@ -4,6 +4,9 @@ import { notFound } from "next/navigation";
 import { ProOfferGallery } from "@/components/ProOfferGallery";
 import { proShowcaseTranslations } from "@/data/translations";
 import type { Locale } from "@/data/translations";
+import { absoluteLocaleUrl, hreflangAlternates } from "@/lib/siteOrigin";
+
+const pathAfterLocale = "/vehicles";
 
 export async function generateMetadata({
   params,
@@ -12,10 +15,19 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
-  const t = proShowcaseTranslations[locale as Locale];
+  const loc = locale as Locale;
+  const t = proShowcaseTranslations[loc];
+  const title = t.vehiclesMetaTitle;
+  const description = t.vehiclesMetaDescription;
   return {
-    title: t.vehiclesMetaTitle,
-    description: t.vehiclesMetaDescription,
+    title,
+    description,
+    alternates: hreflangAlternates(loc, pathAfterLocale),
+    openGraph: {
+      title,
+      description,
+      url: absoluteLocaleUrl(loc, pathAfterLocale),
+    },
   };
 }
 

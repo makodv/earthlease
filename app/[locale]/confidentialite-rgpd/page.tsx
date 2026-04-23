@@ -4,6 +4,9 @@ import { isValidLocale } from "@/lib/i18n";
 import { confidentialiteRgpdTranslations } from "@/data/translations";
 import { ConfidentialiteRgpdView } from "@/components/ConfidentialiteRgpdView";
 import type { Locale } from "@/data/translations";
+import { absoluteLocaleUrl, hreflangAlternates } from "@/lib/siteOrigin";
+
+const pathAfterLocale = "/confidentialite-rgpd";
 
 export async function generateMetadata({
   params,
@@ -12,10 +15,17 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { locale } = await params;
   if (!isValidLocale(locale)) return {};
-  const t = confidentialiteRgpdTranslations[locale as Locale];
+  const loc = locale as Locale;
+  const t = confidentialiteRgpdTranslations[loc];
   return {
     title: t.metaTitle,
     description: t.metaDescription,
+    alternates: hreflangAlternates(loc, pathAfterLocale),
+    openGraph: {
+      title: t.metaTitle,
+      description: t.metaDescription,
+      url: absoluteLocaleUrl(loc, pathAfterLocale),
+    },
   };
 }
 

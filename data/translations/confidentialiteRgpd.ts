@@ -11,14 +11,22 @@ export const confidentialiteRgpdTranslations = {
     pageTitle: "Confidentialité et protection des données",
     lastUpdated: "Dernière mise à jour : avril 2026",
     intro:
-      "EarthLease accorde une importance particulière au respect de votre vie privée et à la sécurité des informations que vous nous transmettez dans le cadre de vos demandes de devis, de location ou de contact. La présente page décrit comment nous traitons les données à caractère personnel et l’usage des cookies sur notre site.",
+      "La marque « EarthLease » et le présent site sont exploités par Earthlease Capital SAS. Nous accordons une importance particulière au respect de votre vie privée et à la sécurité des informations que vous nous transmettez dans le cadre de vos demandes de devis, de location ou de contact. La présente page décrit comment nous traitons les données à caractère personnel et l’usage des cookies sur notre site.",
     sections: [
+      {
+        id: "responsable-traitement",
+        title: "Responsable du traitement",
+        paragraphs: [
+          "Au sens du Règlement (UE) 2016/679 (RGPD), le responsable du traitement des données collectées via ce site est Earthlease Capital SAS.",
+          "Pour exercer vos droits (accès, rectification, effacement, limitation du traitement, opposition et, le cas échéant, portabilité), vous pouvez nous contacter via la page Contact du site ou par courrier à l’adresse du siège social indiquée ci-dessous.",
+        ],
+      },
       {
         id: "donnees-personnelles",
         title: "Données à caractère personnel",
         paragraphs: [
           "La protection des données personnelles est un droit fondamental. Les règles applicables en Europe, notamment le Règlement général sur la protection des données (RGPD), encadrent la collecte et le traitement de vos données. EarthLease s’efforce d’être transparent sur les données collectées et de ne recueillir que les informations nécessaires à la gestion de votre relation commerciale : identité, coordonnées, informations relatives au véhicule ou au matériel souhaité, durée de location envisagée, et le cas échéant données d’entreprise (SIRET, raison sociale) pour les demandes professionnelles.",
-          "Vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation du traitement, d’opposition et, lorsque la réglementation le prévoit, de portabilité. Pour exercer ces droits, contactez-nous en indiquant vos nom, prénom et adresse e-mail, via les coordonnées figurant sur la page Contact du site.",
+          "Vous disposez d’un droit d’accès, de rectification, d’effacement, de limitation du traitement, d’opposition et, lorsque la réglementation le prévoit, de portabilité. Pour exercer ces droits, contactez-nous en indiquant vos nom, prénom et adresse e-mail, via les coordonnées figurant sur la page Contact du site ou à l’adresse postale du siège social d’Earthlease Capital SAS.",
         ],
       },
       {
@@ -90,14 +98,22 @@ export const confidentialiteRgpdTranslations = {
     pageTitle: "Privacy and personal data protection",
     lastUpdated: "Last updated: April 2026",
     intro:
-      "EarthLease takes your privacy seriously. This page explains how we process personal data and use cookies when you request a quote, contact us or use our rental services.",
+      "The EarthLease brand and this website are operated by Earthlease Capital SAS. We take your privacy seriously. This page explains how we process personal data and use cookies when you request a quote, contact us or use our rental services.",
     sections: [
+      {
+        id: "responsable-traitement",
+        title: "Data controller",
+        paragraphs: [
+          "For the purposes of Regulation (EU) 2016/679 (GDPR), the controller of personal data collected through this website is Earthlease Capital SAS.",
+          "To exercise your rights (access, rectification, erasure, restriction of processing, objection and, where applicable, data portability), you may contact us via the Contact page or by post at the registered office address set out below.",
+        ],
+      },
       {
         id: "donnees-personnelles",
         title: "Personal data",
         paragraphs: [
           "European law, including the GDPR, governs how we collect and use your data. We only collect information that is necessary to handle your enquiry or contract: identity, contact details, information about the vehicle or equipment you are interested in, intended rental duration, and where relevant business identifiers (e.g. company number) for professional requests.",
-          "You have the right of access, rectification, erasure, restriction of processing, objection and, where applicable, data portability. To exercise these rights, contact us with your name and email address using the details on our Contact page.",
+          "You have the right of access, rectification, erasure, restriction of processing, objection and, where applicable, data portability. To exercise these rights, contact us with your name and email address using the details on our Contact page or by post to Earthlease Capital SAS at its registered office.",
         ],
       },
       {

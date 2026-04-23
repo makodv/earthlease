@@ -9,7 +9,7 @@ export const homeTranslations = {
     ctaVehicles: "Voir nos offres",
     trustTitle: "Pourquoi EarthLease",
     trustSubtitle: "Tout ce dont vous avez besoin pour une mobilité sereine, en une seule offre.",
-    trustFlexible: "Leasing flexible",
+    trustFlexible: "Location flexible",
     trustFlexibleDesc:
       "Durée minimum un mois, puis durées adaptées à vos chantiers. Pas d’engagement inutile au-delà de vos besoins réels.",
     trustEco: "Mobilité durable",
@@ -49,7 +49,7 @@ export const homeTranslations = {
     howTitle: "Comment ça marche ?",
     howProcessLabel: "Votre parcours en 4 étapes",
     howSubtitle: "Quatre étapes, des visuels au matériel sur chantier — minimum 1 mois.",
-    howStep1Title: "Repérez votre besoin",
+    howStep1Title: "Identifiez votre besoin",
     howStep1Desc:
       "Photos et gammes sur le site ; précisez utilitaire, cardeuse ou équipement et la durée souhaitée.",
     howStep2Title: "Devis avec un commercial",

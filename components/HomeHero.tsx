@@ -106,7 +106,7 @@ export function HomeHero({ locale, heroImageSrc }: HomeHeroProps) {
         </p>
         </div>
 
-        {/* Right: premium vehicle / fleet visual — automotive placeholder or image */}
+        {/* Right: premium vehicle / fleet visual (image optionnel via heroImageSrc) */}
       <div
         ref={visualRef}
         className="hero-visual-frame relative mt-8 w-full overflow-hidden rounded-[1.6rem] sm:mt-10 lg:mt-0 lg:flex lg:justify-end"
@@ -135,35 +135,13 @@ export function HomeHero({ locale, heroImageSrc }: HomeHeroProps) {
               </>
             ) : (
               <div
-                className="absolute inset-0 flex flex-col items-center justify-center p-8"
+                className="absolute inset-0"
                 style={{
                   background:
-                    "linear-gradient(165deg, rgba(6, 46, 91, 0.4) 0%, rgba(6, 46, 91, 0.6) 50%, rgba(92, 184, 92, 0.08) 100%)",
+                    "linear-gradient(165deg, rgba(6, 46, 91, 0.45) 0%, rgba(6, 46, 91, 0.65) 50%, rgba(92, 184, 92, 0.1) 100%)",
                 }}
-              >
-                {/* Mini “vehicle card” strip — premium placeholder */}
-                <div className="flex h-24 w-full max-w-[200px] items-center justify-center sm:h-32" aria-hidden>
-                  <svg
-                    className="h-full w-full text-[var(--hero-text-muted)] opacity-50"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="1.2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  >
-                    <path d="M5 17h14v-4H5v4z" />
-                    <path d="M2 12l2-4h16l2 4" />
-                    <path d="M4 10h16" />
-                  </svg>
-                </div>
-                <p className="mt-4 text-center text-sm font-medium text-[var(--hero-text-muted)]">
-                  {locale === "fr" ? "Flotte premium — photo véhicule" : "Premium fleet — vehicle image"}
-                </p>
-                <p className="mt-1 text-center text-xs text-[var(--hero-text-muted)] opacity-75">
-                  {locale === "fr" ? "Remplacez par votre image" : "Replace with your image"}
-                </p>
-              </div>
+                aria-hidden
+              />
             )}
           </div>
         </div>

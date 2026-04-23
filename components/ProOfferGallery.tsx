@@ -10,25 +10,107 @@ import { demandeDevisHref, offersCategoryHref, type OfferCategorySlug } from "@/
 
 type ProShowcaseCopy = (typeof proShowcaseTranslations)[Locale];
 
-const IMG_SYMBIOZ = encodeURI("/symbioz pic.png");
+/** Premiers emplacements visuels matériel (accueil) — PNG dans `public/`. */
+const MATERIEL_HOME_STRIP_IMAGES: { src: string; alt: Record<Locale, string> }[] = [
+  {
+    src: "/souffleuses1.png",
+    alt: {
+      fr: "Souffleuses et cardeuses KRENDL pour chantiers d’isolation",
+      en: "KRENDL blowing and carding machines for insulation sites",
+    },
+  },
+  {
+    src: "/krendl-2300.png",
+    alt: {
+      fr: "Machine d’isolation KRENDL 2300",
+      en: "KRENDL 2300 insulation machine",
+    },
+  },
+];
 
-const MATERIEL_HOME_PLACEHOLDERS = 6;
-const TOURISME_EXTRA_PHOTOS = 4;
+/** Grille 100 % électrique : 4 visuels paysage + bloc CTA commun. */
+const TOURISME_ELEC_GRID_IMAGES: { src: string; alt: Record<Locale, string> }[] = [
+  {
+    src: "/tesla.png",
+    alt: {
+      fr: "SUV électrique — gamme tourisme",
+      en: "Electric SUV — passenger range",
+    },
+  },
+  {
+    src: "/byd.png",
+    alt: {
+      fr: "SUV électrique BYD — gamme tourisme",
+      en: "BYD electric SUV — passenger range",
+    },
+  },
+  {
+    src: "/bmwi4.png",
+    alt: {
+      fr: "Berline électrique BMW — gamme tourisme",
+      en: "BMW electric saloon — passenger range",
+    },
+  },
+  {
+    src: "/volkswagen.png",
+    alt: {
+      fr: "Citadine électrique Volkswagen — gamme tourisme",
+      en: "Volkswagen electric hatchback — passenger range",
+    },
+  },
+];
 
-/** Gallery: set `image` to `/public` paths when ready. “Demander un devis” → formulaire libre `/demande-devis`. */
+/** Grille hybride — même présentation que 100 % électrique. */
+const TOURISME_HYBRID_GRID_IMAGES: { src: string; alt: Record<Locale, string> }[] = [
+  {
+    src: "/corolla.png",
+    alt: {
+      fr: "Berline hybride Toyota — gamme tourisme",
+      en: "Toyota hybrid saloon — passenger range",
+    },
+  },
+  {
+    src: "/cliohybrid.png",
+    alt: {
+      fr: "Citadine hybride Renault — gamme tourisme",
+      en: "Renault hybrid city car — passenger range",
+    },
+  },
+  {
+    src: "/tucson.png",
+    alt: {
+      fr: "SUV hybride — gamme tourisme",
+      en: "Hybrid SUV — passenger range",
+    },
+  },
+  {
+    src: "/honda.png",
+    alt: {
+      fr: "SUV hybride Honda — gamme tourisme",
+      en: "Honda hybrid SUV — passenger range",
+    },
+  },
+];
+
+/** Showcase cards: images under `public/`. Quote CTA → `/demande-devis` with category preset. */
 const SHOWCASE_ITEMS: {
   id: ProShowcaseCardId;
   slug: string | null;
   image: string | null;
   region: "materiel" | "util" | "tourisme" | "velo";
+  /** Cadre photo : `contain` évite de couper les machines / logos. */
+  imageFit?: "cover" | "contain";
 }[] = [
-  { id: "krendl", slug: "krendl-cardeuse-souffleuse", image: null, region: "materiel" },
-  { id: "ducato", slug: "fiat-ducato-4035-xl", image: "/ducato.png", region: "util" },
-  { id: "boxer", slug: "peugeot-boxer", image: null, region: "util" },
-  { id: "transit", slug: "ford-transit", image: null, region: "util" },
-  { id: "tourismeElec", slug: "renault-symbioz", image: IMG_SYMBIOZ, region: "tourisme" },
-  { id: "tourismeHybride", slug: null, image: null, region: "tourisme" },
-  { id: "velo", slug: null, image: null, region: "velo" },
+  {
+    id: "krendl",
+    slug: "krendl-cardeuse-souffleuse",
+    image: "/produits-cardeuse-souffleuse.jpg",
+    region: "materiel",
+    imageFit: "contain",
+  },
+  { id: "ducato", slug: "fiat-ducato-4035-xl", image: "/ducatoimage.png", region: "util" },
+  { id: "tourismeElec", slug: "renault-symbioz", image: "/tesla.png", region: "tourisme", imageFit: "cover" },
+  { id: "velo", slug: null, image: "/bikes.png", region: "velo", imageFit: "cover" },
 ];
 
 interface ProOfferGalleryProps {
@@ -76,6 +158,96 @@ function CategorySectionIntro({
   );
 }
 
+function TourismeElectricBlock({
+  locale,
+  basePath,
+  t,
+}: {
+  locale: Locale;
+  basePath: string;
+  t: ProShowcaseCopy;
+}) {
+  const devisHref = demandeDevisHref(basePath, "tourisme");
+  const c = t.cards.tourismeElec;
+  return (
+    <div className="mt-4 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)]">
+      <div className="grid grid-cols-2 gap-px bg-[var(--border)] lg:grid-cols-4">
+        {TOURISME_ELEC_GRID_IMAGES.map((img) => (
+          <div
+            key={img.src}
+            className="relative aspect-[5/4] min-h-[120px] overflow-hidden bg-[var(--muted)] sm:aspect-[16/10] sm:min-h-[150px] lg:min-h-[190px]"
+          >
+            <Image
+              src={img.src}
+              alt={img.alt[locale]}
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1024px) 50vw, 25vw"
+            />
+          </div>
+        ))}
+      </div>
+      <Link
+        href={devisHref}
+        className="group block border-t border-[var(--border)] bg-[var(--surface)] px-5 py-6 text-center transition-colors hover:bg-[var(--muted)]/50 sm:px-8 sm:py-8"
+      >
+        <p className="text-lg font-semibold text-[var(--text-primary)] sm:text-xl">{c.title}</p>
+        <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-[var(--text-secondary)]">
+          {c.subtitle}
+        </p>
+        <span className="mt-5 inline-flex rounded-full bg-[var(--navy-primary)] px-6 py-2.5 text-sm font-bold text-white shadow-md transition-colors group-hover:bg-[var(--navy-primary-hover)]">
+          {t.ctaDevis} →
+        </span>
+      </Link>
+    </div>
+  );
+}
+
+function TourismeHybridBlock({
+  locale,
+  basePath,
+  t,
+}: {
+  locale: Locale;
+  basePath: string;
+  t: ProShowcaseCopy;
+}) {
+  const devisHref = demandeDevisHref(basePath, "tourisme");
+  const c = t.cards.tourismeHybride;
+  return (
+    <div className="mt-4 overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)]">
+      <div className="grid grid-cols-2 gap-px bg-[var(--border)] lg:grid-cols-4">
+        {TOURISME_HYBRID_GRID_IMAGES.map((img) => (
+          <div
+            key={img.src}
+            className="relative aspect-[5/4] min-h-[120px] overflow-hidden bg-[var(--muted)] sm:aspect-[16/10] sm:min-h-[150px] lg:min-h-[190px]"
+          >
+            <Image
+              src={img.src}
+              alt={img.alt[locale]}
+              fill
+              className="object-cover object-center"
+              sizes="(max-width: 1024px) 50vw, 25vw"
+            />
+          </div>
+        ))}
+      </div>
+      <Link
+        href={devisHref}
+        className="group block border-t border-[var(--border)] bg-[var(--surface)] px-5 py-6 text-center transition-colors hover:bg-[var(--muted)]/50 sm:px-8 sm:py-8"
+      >
+        <p className="text-lg font-semibold text-[var(--text-primary)] sm:text-xl">{c.title}</p>
+        <p className="mx-auto mt-2 max-w-xl text-sm leading-relaxed text-[var(--text-secondary)]">
+          {c.subtitle}
+        </p>
+        <span className="mt-5 inline-flex rounded-full bg-[var(--navy-primary)] px-6 py-2.5 text-sm font-bold text-white shadow-md transition-colors group-hover:bg-[var(--navy-primary-hover)]">
+          {t.ctaDevis} →
+        </span>
+      </Link>
+    </div>
+  );
+}
+
 function PlaceholderVisual({ region }: { region: "materiel" | "util" | "tourisme" | "velo" }) {
   const bg =
     region === "materiel"
@@ -118,18 +290,32 @@ function ShowcaseCard({
   c,
   basePath,
   t,
+  visualAspectClass,
+  imageSizes,
 }: {
   item: (typeof SHOWCASE_ITEMS)[number];
   c: { title: string; subtitle: string };
   basePath: string;
   t: ProShowcaseCopy;
+  /** Remplace le ratio par défaut (ex. grand bandeau utilitaires). */
+  visualAspectClass?: string;
+  imageSizes?: string;
 }) {
   const category = categorySlugForRegion(item.region);
   const devisHref = demandeDevisHref(basePath, category);
   const isTourisme = item.region === "tourisme";
-  const aspectWrap = isTourisme
-    ? "relative aspect-[3/4] min-h-[280px] w-full overflow-hidden sm:min-h-[320px]"
-    : "relative aspect-[16/10] w-full overflow-hidden";
+  const aspectWrap =
+    visualAspectClass ??
+    (isTourisme
+      ? "relative aspect-[3/4] min-h-[280px] w-full overflow-hidden sm:min-h-[320px]"
+      : "relative aspect-[16/10] w-full overflow-hidden");
+  const sizes = imageSizes ?? "(max-width: 1024px) 100vw, 33vw";
+  const imageFit = item.imageFit ?? "cover";
+  const imageFitClass =
+    imageFit === "contain"
+      ? "object-contain object-center"
+      : "object-cover object-center";
+  const imageAreaBg = imageFit === "contain" ? "bg-[var(--muted)]" : "";
 
   return (
     <li key={item.id}>
@@ -137,14 +323,14 @@ function ShowcaseCard({
         href={devisHref}
         className="group block overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--surface)] shadow-[var(--shadow-card)] transition hover:border-[var(--navy-primary)]/25 hover:shadow-[var(--shadow-lift)]"
       >
-        <div className={aspectWrap}>
+        <div className={[aspectWrap, imageAreaBg].filter(Boolean).join(" ")}>
           {item.image ? (
             <Image
               src={item.image}
               alt={c.title}
               fill
-              className="object-cover transition duration-500 group-hover:scale-[1.03]"
-              sizes="(max-width: 1024px) 100vw, 33vw"
+              className={`${imageFitClass} transition duration-500 group-hover:scale-[1.02]`}
+              sizes={sizes}
             />
           ) : (
             <div className="absolute inset-0">
@@ -171,8 +357,8 @@ export function ProOfferGallery({ locale, variant }: ProOfferGalleryProps) {
   const byRegion = (r: (typeof SHOWCASE_ITEMS)[number]["region"]) =>
     SHOWCASE_ITEMS.filter((i) => i.region === r);
 
-  const tourismeElec = SHOWCASE_ITEMS.find((i) => i.id === "tourismeElec")!;
-  const tourismeHyb = SHOWCASE_ITEMS.find((i) => i.id === "tourismeHybride")!;
+  const utilHeroItem = SHOWCASE_ITEMS.find((i) => i.id === "ducato")!;
+  const veloHeroItem = SHOWCASE_ITEMS.find((i) => i.id === "velo")!;
 
   return (
     <div className={variant === "home" ? "" : "pb-8"}>
@@ -226,12 +412,15 @@ export function ProOfferGallery({ locale, variant }: ProOfferGalleryProps) {
               <p className="text-center text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
                 {ui.materielHomeStrip}
               </p>
-              <ul className="mt-3 grid grid-cols-3 gap-2 sm:grid-cols-6 sm:gap-3">
-                {Array.from({ length: MATERIEL_HOME_PLACEHOLDERS }, (_, i) => (
-                  <li key={`mat-ph-${i}`}>
+              <ul className="mt-5 grid grid-cols-1 gap-6 sm:mt-6 sm:grid-cols-2 sm:gap-8 lg:mx-auto lg:max-w-5xl lg:gap-10">
+                {MATERIEL_HOME_STRIP_IMAGES.map((strip, i) => (
+                  <li key={strip.src} className="min-w-0">
                     <ImagePlaceholderSlot
                       label={`${ui.slotPrefix} ${i + 1}`}
-                      aspectClass="aspect-square min-h-[72px] sm:min-h-[88px]"
+                      aspectClass="relative aspect-[3/4] w-full min-h-[260px] sm:min-h-[300px] lg:aspect-[5/6] lg:min-h-[360px]"
+                      imageSrc={strip.src}
+                      imageAlt={strip.alt[locale]}
+                      imageFit="contain"
                     />
                   </li>
                 ))}
@@ -253,26 +442,15 @@ export function ProOfferGallery({ locale, variant }: ProOfferGalleryProps) {
             region="util"
             seeLabel={t.seeCategoryPage}
           />
-          {variant === "home" ? (
-            <div className="mt-8">
-              <p className="text-center text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
-                {ui.utilHomeCaption}
-              </p>
-              <div className="mt-3">
-                <ImagePlaceholderSlot
-                  label={ui.slotPrefix}
-                  aspectClass="aspect-[21/9] min-h-[120px] w-full sm:min-h-[160px]"
-                />
-              </div>
-            </div>
-          ) : null}
-          <p className="mt-6 text-center text-xs font-semibold uppercase tracking-wide text-[var(--text-muted)]">
-            {t.modelsLabel}
-          </p>
-          <ul className="mt-4 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {byRegion("util").map((item) => (
-              <ShowcaseCard key={item.id} item={item} c={t.cards[item.id]} basePath={basePath} t={t} />
-            ))}
+          <ul className="mt-8 grid gap-6 sm:mx-auto sm:max-w-4xl lg:max-w-5xl">
+            <ShowcaseCard
+              item={utilHeroItem}
+              c={t.cards.ducato}
+              basePath={basePath}
+              t={t}
+              visualAspectClass="relative aspect-[21/9] min-h-[200px] w-full overflow-hidden sm:min-h-[280px] lg:min-h-[360px]"
+              imageSizes="(max-width: 1024px) 100vw, 85vw"
+            />
           </ul>
         </div>
 
@@ -287,31 +465,11 @@ export function ProOfferGallery({ locale, variant }: ProOfferGalleryProps) {
           <p className="mt-10 text-center text-sm font-bold uppercase tracking-wide text-[var(--navy-primary)]">
             {t.tourismeSectionElectric}
           </p>
-          <ul className="mt-4 grid gap-6 lg:grid-cols-3">
-            <ShowcaseCard item={tourismeElec} c={t.cards[tourismeElec.id]} basePath={basePath} t={t} />
-            {Array.from({ length: TOURISME_EXTRA_PHOTOS }, (_, i) => (
-              <li key={`elec-extra-${i}`}>
-                <ImagePlaceholderSlot
-                  label={`${ui.tourismeExtraSlot} ${i + 1}`}
-                  aspectClass="aspect-[3/4] min-h-[260px] w-full sm:min-h-[300px]"
-                />
-              </li>
-            ))}
-          </ul>
+          <TourismeElectricBlock locale={locale} basePath={basePath} t={t} />
           <p className="mt-14 text-center text-sm font-bold uppercase tracking-wide text-[var(--navy-primary)]">
             {t.tourismeSectionHybrid}
           </p>
-          <ul className="mt-4 grid gap-6 lg:grid-cols-3">
-            <ShowcaseCard item={tourismeHyb} c={t.cards[tourismeHyb.id]} basePath={basePath} t={t} />
-            {Array.from({ length: TOURISME_EXTRA_PHOTOS }, (_, i) => (
-              <li key={`hyb-extra-${i}`}>
-                <ImagePlaceholderSlot
-                  label={`${ui.tourismeExtraSlot} ${i + 1 + TOURISME_EXTRA_PHOTOS}`}
-                  aspectClass="aspect-[3/4] min-h-[260px] w-full sm:min-h-[300px]"
-                />
-              </li>
-            ))}
-          </ul>
+          <TourismeHybridBlock locale={locale} basePath={basePath} t={t} />
         </div>
 
         <div id="offres-deux-roues" className="mx-auto mt-16 max-w-6xl scroll-mt-28">
@@ -323,10 +481,15 @@ export function ProOfferGallery({ locale, variant }: ProOfferGalleryProps) {
             region="velo"
             seeLabel={t.seeCategoryPage}
           />
-          <ul className="mt-8 mx-auto grid max-w-lg gap-6 sm:grid-cols-1">
-            {byRegion("velo").map((item) => (
-              <ShowcaseCard key={item.id} item={item} c={t.cards[item.id]} basePath={basePath} t={t} />
-            ))}
+          <ul className="mt-8 grid gap-6 sm:mx-auto sm:max-w-4xl lg:max-w-5xl">
+            <ShowcaseCard
+              item={veloHeroItem}
+              c={t.cards.velo}
+              basePath={basePath}
+              t={t}
+              visualAspectClass="relative aspect-[21/9] min-h-[160px] w-full overflow-hidden sm:min-h-[220px] lg:min-h-[280px]"
+              imageSizes="(max-width: 1024px) 100vw, 85vw"
+            />
           </ul>
         </div>
 

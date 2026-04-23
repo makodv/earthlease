@@ -1,4 +1,5 @@
-const WHATSAPP_PHONE = "+1 (305) 563 64 74";
+/** Numéro aligné sur le contact site — wa.me exige l’indicatif pays sans le 0 initial. */
+const WHATSAPP_PHONE = "+33 9 72 12 32 53";
 const WHATSAPP_PREFILL_MESSAGE = "Bonjour EarthLease, j'ai une question.";
 
 function getWhatsAppHref(): string | null {

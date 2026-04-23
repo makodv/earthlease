@@ -7,10 +7,10 @@ export const proShowcaseTranslations = {
     eyebrow: "Location multi-mobilité",
     title: "Pro, tourisme, utilitaires & deux-roues",
     lead:
-      "Comme une agence de location pro qui vous oriente vers la bonne formule (courte ou longue durée), EarthLease couvre le matériel d’isolation, les utilitaires et la mobilité du quotidien : tourisme en électrique ou hybride, deux-roues (liste modèles à venir). Pas de catalogue filtrable : un commercial précise références, options et tarif avec vous.",
+      "EarthLease vous oriente vers la bonne formule (courte ou longue durée), met à votre disposition du matériel professionnel pour l’isolation (cardeuse-souffleuse), vos utilitaires, et vous accompagne pour votre mobilité du quotidien : tourisme en électrique ou hybride, deux-roues. Un commercial précise avec vous les références, options et tarifs.",
     minLease: "Durée minimum de location : 1 mois.",
     commercialNote:
-      "Pas de catalogue filtrable : visuels représentatifs (images à compléter) ; références et disponibilité validées avec vous.",
+      "Pas de catalogue filtrable : visuels représentatifs ; références exactes et disponibilité validées avec vous sur devis.",
     tourismeFocusNote:
       "Tourisme : uniquement motorisations électriques ou hybrides.",
     materielTitle: "Matériel & isolation",
@@ -38,8 +38,9 @@ export const proShowcaseTranslations = {
         subtitle: "425, 575 (1 ou 2 turbines), 2300 — location chantiers d’isolation",
       },
       ducato: {
-        title: "Fiat Ducato utilitaire",
-        subtitle: "Fourgon — idéal charges volumineuses",
+        title: "Utilitaires & fourgons",
+        subtitle:
+          "Livraisons, charges volumineuses, équipes terrain — indiquez le véhicule souhaité dans votre demande de devis.",
       },
       boxer: {
         title: "Peugeot Boxer",
@@ -51,7 +52,7 @@ export const proShowcaseTranslations = {
       },
       tourismeElec: {
         title: "Tourisme 100% électrique",
-        subtitle: "Exemple de gamme — citadines & SUV électriques",
+        subtitle: "Citadines et SUV électriques — selon stock et devis",
       },
       tourismeHybride: {
         title: "Tourisme hybride",
@@ -74,7 +75,7 @@ export const proShowcaseTranslations = {
       "Like a pro hire desk that steers you to the right plan (short or long term), EarthLease covers insulation equipment, vans and everyday mobility: electric or hybrid passenger cars, plus two-wheelers (model list coming). No filterable catalogue: our team confirms spec, options and pricing with you on the quote.",
     minLease: "Minimum rental period: 1 month.",
     commercialNote:
-      "No filterable catalogue: representative visuals (add photos when ready); specs and availability are confirmed with you.",
+      "No filterable catalogue: representative product imagery; exact specs and availability are confirmed with you on the quote.",
     tourismeFocusNote: "Passenger cars: electric and hybrid only.",
     materielTitle: "Equipment & insulation",
     materielBody:
@@ -100,8 +101,9 @@ export const proShowcaseTranslations = {
         subtitle: "425, 575 (1 or 2 turbines), 2300 — insulation site rental",
       },
       ducato: {
-        title: "Fiat Ducato van",
-        subtitle: "Large cargo capacity",
+        title: "Commercial vans",
+        subtitle:
+          "Deliveries, bulky loads, field teams — specify the vehicle you want in your quote request.",
       },
       boxer: {
         title: "Peugeot Boxer",
@@ -113,7 +115,7 @@ export const proShowcaseTranslations = {
       },
       tourismeElec: {
         title: "Fully electric passenger",
-        subtitle: "Example range — city cars & electric SUVs",
+        subtitle: "City cars and electric SUVs — per stock and quote",
       },
       tourismeHybride: {
         title: "Hybrid passenger",

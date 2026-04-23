@@ -1,7 +1,32 @@
+import type { Metadata } from "next";
 import { isValidLocale } from "@/lib/i18n";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { howItWorksTranslations, type Locale } from "@/data/translations";
+import { absoluteLocaleUrl, hreflangAlternates } from "@/lib/siteOrigin";
+
+const pathAfterLocale = "/how-it-works";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}): Promise<Metadata> {
+  const { locale } = await params;
+  if (!isValidLocale(locale)) return {};
+  const loc = locale as Locale;
+  const t = howItWorksTranslations[loc];
+  return {
+    title: t.title,
+    description: t.subtitle,
+    alternates: hreflangAlternates(loc, pathAfterLocale),
+    openGraph: {
+      title: t.title,
+      description: t.subtitle,
+      url: absoluteLocaleUrl(loc, pathAfterLocale),
+    },
+  };
+}
 
 export default async function HowItWorksPage({
   params,

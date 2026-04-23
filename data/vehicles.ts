@@ -96,7 +96,7 @@ export const vehiclesIndividuel: VehicleOption[] = vehiclesIndividuelBase.map(
 /** Brochures in /public — spaces encoded for safe URLs */
 const PDF_FIAT_DUCATO = encodeURI("/brochure commercial _fiat_ducato 4035 XL.pdf");
 const PDF_KRENDL = encodeURI("/2_M99_NW75 (1).pdf");
-const IMG_FIAT_DUCATO = encodeURI("/ducato.png");
+const IMG_FIAT_DUCATO = encodeURI("/ducatoimage.png");
 
 /** Véhicules professionnels (flotte utilitaire) — /vehicles/professionnel */
 const vehiclesProfessionnelBase: VehicleOption[] = [

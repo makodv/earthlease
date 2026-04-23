@@ -1,16 +1,46 @@
+import Image from "next/image";
+
 interface ImagePlaceholderSlotProps {
   /** Shown inside the frame (e.g. "Visuel 3") */
   label: string;
   /** Tailwind aspect class */
   aspectClass?: string;
   className?: string;
+  /** Si défini, affiche une photo à la place du placeholder pointillé. */
+  imageSrc?: string;
+  imageAlt?: string;
+  /** `contain` = image entière visible (produits sur fond clair) ; `cover` = remplit le cadre. */
+  imageFit?: "cover" | "contain";
 }
 
 export function ImagePlaceholderSlot({
   label,
   aspectClass = "aspect-[4/3]",
   className = "",
+  imageSrc,
+  imageAlt,
+  imageFit = "contain",
 }: ImagePlaceholderSlotProps) {
+  if (imageSrc) {
+    const fitClass =
+      imageFit === "contain"
+        ? "object-contain object-center"
+        : "object-cover object-center";
+    return (
+      <div
+        className={`group relative overflow-hidden rounded-2xl border border-[var(--border)] bg-[var(--muted)] shadow-[var(--shadow-card)] ${aspectClass} ${className}`.trim()}
+      >
+        <Image
+          src={imageSrc}
+          alt={imageAlt ?? label}
+          fill
+          className={`${fitClass} transition duration-500 group-hover:scale-[1.02]`}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 40vw"
+        />
+      </div>
+    );
+  }
+
   return (
     <div
       className={`group relative flex flex-col items-center justify-center gap-2 overflow-hidden rounded-2xl border-2 border-dashed border-[var(--navy-primary)]/20 bg-[linear-gradient(165deg,var(--surface)_0%,rgba(6,46,91,0.04)_100%)] p-4 text-center shadow-inner ${aspectClass} ${className}`.trim()}
@@ -33,30 +63,5 @@ export function ImagePlaceholderSlot({
         {label}
       </span>
     </div>
-  );
-}
-
-interface ImagePlaceholderGridProps {
-  count: number;
-  slotLabel: (index: number) => string;
-  columnsClass: string;
-  /** Taller slots for hero row */
-  aspectClass?: string;
-}
-
-export function ImagePlaceholderGrid({
-  count,
-  slotLabel,
-  columnsClass,
-  aspectClass = "aspect-[4/3]",
-}: ImagePlaceholderGridProps) {
-  return (
-    <ul className={`grid gap-3 sm:gap-4 ${columnsClass}`}>
-      {Array.from({ length: count }, (_, i) => (
-        <li key={i}>
-          <ImagePlaceholderSlot label={slotLabel(i + 1)} aspectClass={aspectClass} />
-        </li>
-      ))}
-    </ul>
   );
 }

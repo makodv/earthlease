@@ -1,9 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { contactTranslations, type Locale } from "@/data/translations";
 import { inputBase } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
+import {
+  getFormspreeContactFormId,
+  submitFormspree,
+} from "@/lib/formspree";
 
 interface ContactFormProps {
   locale: Locale;
@@ -19,16 +23,64 @@ export function ContactForm({ locale }: ContactFormProps) {
     date: "",
     time: "",
   });
+  const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setSubmitError(null);
+
     if (step < 3) {
       setStep((s) => s + 1);
+      return;
+    }
+
+    const formId = getFormspreeContactFormId();
+    if (!formId) {
+      setSubmitError(t.configMissing);
+      return;
+    }
+
+    setSubmitting(true);
+    const subject =
+      locale === "fr"
+        ? "[EarthLease] Contact — demande de rendez-vous"
+        : "[EarthLease] Contact — appointment request";
+
+    const result = await submitFormspree(formId, {
+      _subject: subject,
+      _replyto: form.email,
+      fullName: form.fullName,
+      email: form.email,
+      phone: form.phone || "—",
+      preferredDate: form.date,
+      preferredTime: form.time,
+    });
+
+    setSubmitting(false);
+
+    if (result.ok) {
+      setSubmitted(true);
     } else {
-      // Submit logic (e.g. send to API)
-      console.log("Submit", form);
+      setSubmitError(result.message || t.submitError);
     }
   };
+
+  if (submitted) {
+    return (
+      <div className="rounded-xl border border-white/20 bg-white/70 p-8 text-center shadow-[0_4px_24px_rgba(6,46,91,0.08)] backdrop-blur-md">
+        <h2 className="text-xl font-semibold text-[var(--navy-primary)]">{t.successTitle}</h2>
+        <p className="mt-4 text-[var(--text-secondary)]">{t.successMessage}</p>
+        <Link
+          href={`/${locale}`}
+          className="mt-6 inline-block text-sm font-medium text-[var(--navy-primary)] underline-offset-2 hover:underline"
+        >
+          {locale === "fr" ? "Retour à l’accueil" : "Back to home"}
+        </Link>
+      </div>
+    );
+  }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
@@ -61,6 +113,7 @@ export function ContactForm({ locale }: ContactFormProps) {
             </label>
             <input
               id="contact-name"
+              name="fullName"
               type="text"
               required
               value={form.fullName}
@@ -78,6 +131,7 @@ export function ContactForm({ locale }: ContactFormProps) {
             </label>
             <input
               id="contact-email"
+              name="email"
               type="email"
               required
               value={form.email}
@@ -95,6 +149,7 @@ export function ContactForm({ locale }: ContactFormProps) {
             </label>
             <input
               id="contact-phone"
+              name="phone"
               type="tel"
               value={form.phone}
               onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
@@ -115,6 +170,7 @@ export function ContactForm({ locale }: ContactFormProps) {
           </label>
           <input
             id="contact-date"
+            name="preferredDate"
             type="date"
             required
             value={form.date}
@@ -134,6 +190,7 @@ export function ContactForm({ locale }: ContactFormProps) {
           </label>
           <input
             id="contact-time"
+            name="preferredTime"
             type="time"
             required
             value={form.time}
@@ -143,11 +200,18 @@ export function ContactForm({ locale }: ContactFormProps) {
         </div>
       )}
 
+      {submitError ? (
+        <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+          {submitError}
+        </p>
+      ) : null}
+
       <button
         type="submit"
-        className="inline-flex w-full items-center justify-center rounded-xl bg-[var(--navy-primary)] px-6 py-3.5 font-semibold text-white transition-colors hover:bg-[var(--navy-primary-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--navy-primary)] focus:ring-offset-2 sm:w-auto"
+        disabled={submitting}
+        className="inline-flex w-full items-center justify-center rounded-xl bg-[var(--navy-primary)] px-6 py-3.5 font-semibold text-white transition-colors hover:bg-[var(--navy-primary-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--navy-primary)] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
       >
-        {step < 3 ? t.next : t.submit}
+        {submitting ? t.submitting : step < 3 ? t.next : t.submit}
       </button>
     </form>
   );

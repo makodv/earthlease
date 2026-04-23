@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { organizationJsonLd } from "@/lib/seo/jsonLdOrganization";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -12,11 +12,6 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata: Metadata = {
-  title: "EarthLease | Location de véhicules",
-  description: "Louez votre véhicule avec tout compris - assurance, entretien, assistance 24/7",
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -27,6 +22,11 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <script
+          type="application/ld+json"
+          // eslint-disable-next-line react/no-danger
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(organizationJsonLd) }}
+        />
         {children}
       </body>
     </html>

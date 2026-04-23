@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { footerTranslations, type Locale } from "@/data/translations";
+import { legalPublisher } from "@/lib/legalPublisher";
 
 const LOGO_SRC = "/logo.svg";
 
@@ -111,23 +112,40 @@ export function Footer({ locale }: FooterProps) {
             </h4>
             <p className="mt-6 text-sm text-white/70">{t.officeHours}</p>
             <p className="mt-3 text-sm">
-              <span className="text-white/70">{t.customerService}:</span>{" "}
+              <span className="text-white/70">{t.phoneLabel}:</span>{" "}
               <a
-                href="tel:0176431905"
+                href={`tel:${t.phoneTel}`}
                 className="font-medium text-white/90 transition-colors hover:text-white"
               >
-                01 76 43 19 05
+                {t.phoneDisplay}
               </a>
             </p>
-            <p className="mt-1 text-sm">
-              <span className="text-white/70">{t.newClients}:</span>{" "}
-              <a
-                href="tel:0176410841"
-                className="font-medium text-white/90 transition-colors hover:text-white"
-              >
-                01 76 41 08 41
-              </a>
-            </p>
+            <div className="mt-8 text-sm text-white/75">
+              <p className="text-xs font-semibold uppercase tracking-wider text-white/95">
+                {t.addressHeading}
+              </p>
+              <p className="mt-2 font-medium text-white/90">{legalPublisher.companyName}</p>
+              <p className="mt-4">
+                <span className="block text-xs font-semibold uppercase tracking-wider text-white/80">
+                  {t.registeredOfficeLabel}
+                </span>
+                <span className="mt-1 block leading-relaxed">
+                  {legalPublisher.registeredOfficeStreet}
+                  <br />
+                  {legalPublisher.registeredOfficeCityLine}, {legalPublisher.country}
+                </span>
+              </p>
+              <p className="mt-4">
+                <span className="block text-xs font-semibold uppercase tracking-wider text-white/80">
+                  {t.secondaryAddressLabel}
+                </span>
+                <span className="mt-1 block leading-relaxed">
+                  {legalPublisher.secondaryStreet}
+                  <br />
+                  {legalPublisher.secondaryCityLine}, {legalPublisher.country}
+                </span>
+              </p>
+            </div>
           </div>
         </div>
 

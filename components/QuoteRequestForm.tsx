@@ -7,6 +7,7 @@ import { devisTranslations, vehicleTranslations, type Locale } from "@/data/tran
 import { inputBase } from "@/components/ui/Card";
 import { useAudienceProfile } from "@/hooks/useAudienceProfile";
 import type { OfferCategorySlug } from "@/lib/offerCategory";
+import { getFormspreeQuoteFormId, submitFormspree } from "@/lib/formspree";
 
 interface QuoteRequestFormProps {
   /** When `null`, the form is “open” (no pre-selected vehicle). */
@@ -67,6 +68,8 @@ export function QuoteRequestForm({
   }, [vehicle, audience]);
 
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [hasManualProfileChoice, setHasManualProfileChoice] = useState(false);
   const [profile, setProfile] = useState<QuoteProfile>(initialProfile);
   const [form, setForm] = useState({
@@ -89,17 +92,61 @@ export function QuoteRequestForm({
     setProfile(initialProfile);
   }, [initialProfile, hasManualProfileChoice]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: send to API
-    console.log("Quote request", {
-      mode: isOpenQuote ? "open" : "vehicle",
-      vehicle: vehicle?.slug ?? null,
-      quoteCategory,
+    setSubmitError(null);
+
+    const formId = getFormspreeQuoteFormId();
+    if (!formId) {
+      setSubmitError(t.configMissing);
+      return;
+    }
+
+    const subject =
+      locale === "fr" ? "[EarthLease] Demande de devis" : "[EarthLease] Quote request";
+
+    const vehicleLine =
+      vehicle != null ? `${vehicle.brand} ${vehicle.name} (${vehicle.slug})` : "— (open request)";
+
+    const categoryLine =
+      quoteCategory != null ? OFFER_CATEGORY_LABEL[locale][quoteCategory] : "—";
+
+    const payload: Record<string, string> = {
+      _subject: subject,
+      _replyto: form.email,
+      requestKind: isOpenQuote ? "open_quote" : "vehicle_quote",
       profile,
-      ...form,
-    });
-    setSubmitted(true);
+      vehicle: vehicleLine,
+      quoteCategory: categoryLine,
+      fullName: form.fullName,
+      email: form.email,
+      phone: form.phone || "—",
+      startDate: form.startDate,
+      endDate: form.endDate,
+      needDescription: isOpenQuote ? form.needDescription : "—",
+    };
+
+    if (isPro) {
+      payload.companyName = form.companyName;
+      payload.siret = form.siret;
+      payload.vatNumber = form.vatNumber || "—";
+      payload.businessRole = form.businessRole;
+    } else {
+      payload.companyName = "—";
+      payload.siret = "—";
+      payload.vatNumber = "—";
+      payload.businessRole = "—";
+    }
+
+    setSubmitting(true);
+    const result = await submitFormspree(formId, payload);
+    setSubmitting(false);
+
+    if (result.ok) {
+      setSubmitted(true);
+    } else {
+      setSubmitError(result.message || t.submitError);
+    }
   };
 
   const successLabel = isOpenQuote ? t.backToOffers : t.backToVehicle;
@@ -423,11 +470,18 @@ export function QuoteRequestForm({
       {proSection}
       {rentalSection}
 
+      {submitError ? (
+        <p className="rounded-lg border border-red-200 bg-red-50 px-3 py-2 text-sm text-red-800" role="alert">
+          {submitError}
+        </p>
+      ) : null}
+
       <button
         type="submit"
-        className="w-full rounded-xl bg-[var(--navy-primary)] px-8 py-4 text-base font-bold text-white shadow-[0_10px_28px_rgba(6,46,91,0.28)] transition-colors hover:bg-[var(--navy-primary-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--navy-primary)] focus:ring-offset-2 sm:w-auto sm:min-w-[220px] sm:px-12"
+        disabled={submitting}
+        className="w-full rounded-xl bg-[var(--navy-primary)] px-8 py-4 text-base font-bold text-white shadow-[0_10px_28px_rgba(6,46,91,0.28)] transition-colors hover:bg-[var(--navy-primary-hover)] focus:outline-none focus:ring-2 focus:ring-[var(--navy-primary)] focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto sm:min-w-[220px] sm:px-12"
       >
-        {t.submit}
+        {submitting ? t.submitting : t.submit}
       </button>
 
       <button
